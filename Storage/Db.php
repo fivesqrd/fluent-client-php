@@ -42,7 +42,7 @@ class Db
     
     public static function createSchema(\PDO $db)
     {
-        $db->query('CREATE TABLE messages (id integer primary key autoincrement, sender varchar(255), recipient varchar(255), subject varchar(255), content blob, status varchar(255), created_at datetime, transmitted_at datetime, reference varchar(255), error varchar(255))');
+        $db->query('CREATE TABLE messages (id integer primary key autoincrement, profile varchar(255), sender varchar(255), recipient varchar(255), subject varchar(255), content blob, status varchar(255), created_at datetime, transmitted_at datetime, reference varchar(255), error varchar(255))');
         $db->query('CREATE TABLE attachements (id integer primary key autoincrement, message_id int(11), type varchar(255), name varchar(255), content blob)');
     }
     
@@ -73,9 +73,10 @@ class Db
             ':subject'   => $properties['subject'],
             ':content'   => $properties['content'],
             ':status'    => 'queued',
-            ':created_at'=> date("Y-m-d H:i:s")
+            ':created_at'=> date("Y-m-d H:i:s"),
+            ':profile'   => $properties['profile']
         );
-        $stmt = $this->_adapter->prepare('INSERT INTO messages (sender,recipient,subject,content,status,created_at) values (:sender,:recipient,:subject,:content,:status,:created_at)');
+        $stmt = $this->_adapter->prepare('INSERT INTO messages (sender,recipient,subject,content,status,created_at,profile) values (:sender,:recipient,:subject,:content,:status,:created_at,:profile)');
         $stmt->execute($data);
         $id = $this->_adapter->lastInsertId();
         

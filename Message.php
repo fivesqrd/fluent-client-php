@@ -15,20 +15,20 @@ class Message
     
     protected $_attachments = array();
     
+    protected $_profile;
+    
     /**
     * Default options
     */
     public static $defaults = array(
-        'name'  => null, 
-        'from'  => null, 
-        'key'   => null
+        'name'    => null, 
+        'from'    => null, 
+        'profile' => null
     );
     
-    public function __construct($key = null)
+    public function __construct($profile = null)
     {
-        if ($key) {
-            $this->_key = $key;
-        }
+        $this->_profile = $profile;
     }
 
     /**
@@ -74,7 +74,11 @@ class Message
      */
     public function content($value)
     {
-        $this->_content = $value;
+        if (is_object($value)) {
+            $this->_content = $value->getContent();
+        } else {
+            $this->_content = $value;
+        }
         return $this;
     }
     
@@ -114,7 +118,8 @@ class Message
             'subject'     => $this->_subject,
             'recipients'  => array($this->_recipient),
             'content'     => $this->_content,
-            'attachments' => $this->_attachments        
+            'attachments' => $this->_attachments,
+            'profile'     => ($this->_profile) ? $this->_profile : self::$defaults['profile']        
         );
         
         $response = $client->call('messages', 'create', json_encode($params));
@@ -140,7 +145,8 @@ class Message
             'recipient'   => $this->_recipient,
             'content'     => $this->_content,
             'html'        => true,
-            'attachments' => $this->_attachments        
+            'attachments' => $this->_attachments,
+            'profile'     => $this->_profile        
         );
     }
 }
