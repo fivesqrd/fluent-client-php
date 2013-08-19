@@ -1,4 +1,5 @@
 <?php
+namespace Jifno;
 use Jifno\Layout\Minimal;
 
 require_once 'Jifno/Layout/Minimal.php';
@@ -6,7 +7,7 @@ require_once 'Jifno/Storage/Db.php';
 require_once 'Jifno/Message.php';
 require_once 'Jifno/Client.php';
 
-class Jifno
+class Helper
 {
     protected $_content;
     
