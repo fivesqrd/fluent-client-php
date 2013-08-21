@@ -101,11 +101,11 @@ class Db
     public function moveToSent($messageId, $reference)
     {
         $data = array(
-            'id'             => $messageId,
-            'reference'      => $reference,
-            'status'         => 'sent',
-            'time'           => date("Y-m-d H:i:s"),
-            'error'          => null
+            ':id'             => $messageId,
+            ':reference'      => $reference,
+            ':status'         => 'sent',
+            ':time'           => date("Y-m-d H:i:s"),
+            ':error'          => null
         );
         $stmt = $this->_adapter
             ->prepare('UPDATE messages SET reference = :reference, status = :status, transmitted_at = :time, error = null WHERE id = :id');
@@ -115,10 +115,10 @@ class Db
     public function moveToFailed($messageId, $error)
     {
         $data = array(
-            'id'             => $messageId,
-            'status'         => 'failed',
-            'error'          => $error,
-            'time'           => date("Y-m-d H:i:s")
+            ':id'             => $messageId,
+            ':status'         => 'failed',
+            ':error'          => $error,
+            ':time'           => date("Y-m-d H:i:s")
         );
         $stmt = $this->_adapter
             ->prepare('UPDATE messages SET status = :status, transmitted_at = :time, error = :error WHERE id = :id');
