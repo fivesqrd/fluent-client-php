@@ -90,9 +90,9 @@ class Message
     public function from($address, $name = null)
     {
         if (is_array($address)) {
-            $this->_from = $address;
+            $this->_sender = $address;
         } else {
-            $this->_from = array(
+            $this->_sender = array(
                 'address' => $address,
                 'name'    => $name
             );
