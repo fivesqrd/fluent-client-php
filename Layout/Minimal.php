@@ -19,7 +19,7 @@ class Minimal
      */
     public function addParagraph($text)
     {
-        $this->_content .= '<p>' . $text .  '</p>';
+        $this->_content .= '<div class="paragraph">' . $text .  '</div>';
         return $this;
     }
     
