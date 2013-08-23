@@ -105,7 +105,6 @@ class Db
             ':reference'      => $reference,
             ':status'         => 'sent',
             ':time'           => date("Y-m-d H:i:s"),
-            ':error'          => null
         );
         $stmt = $this->_adapter
             ->prepare('UPDATE messages SET reference = :reference, status = :status, transmitted_at = :time, error = null WHERE id = :id');
