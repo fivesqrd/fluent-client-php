@@ -146,7 +146,7 @@ class Message
             'content'     => $this->_content,
             'html'        => true,
             'attachments' => $this->_attachments,
-            'profile'     => $this->_profile        
+            'profile'     => ($this->_profile) ? $this->_profile : self::$defaults['profile']        
         );
     }
 }
