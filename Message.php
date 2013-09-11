@@ -64,7 +64,7 @@ class Message
         array_push($this->_attachments, array(
             'name'      => $name,
             'type'      => $type,
-            'content'   => $content
+            'content'   => base64_encode($content)
         ));
         return $this;
     }
