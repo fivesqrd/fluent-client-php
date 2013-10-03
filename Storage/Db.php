@@ -43,7 +43,7 @@ class Db
     public static function createSchema(\PDO $db)
     {
         $db->query('CREATE TABLE messages (id integer primary key autoincrement, profile varchar(255), sender varchar(255), recipient varchar(255), subject varchar(255), content blob, status varchar(255), created_at datetime, transmitted_at datetime, reference varchar(255), error varchar(255))');
-        $db->query('CREATE TABLE attachements (id integer primary key autoincrement, message_id int(11), type varchar(255), name varchar(255), content blob)');
+        $db->query('CREATE TABLE attachments (id integer primary key autoincrement, message_id int(11), type varchar(255), name varchar(255), content blob)');
     }
     
     public function __construct(\PDO $adapter)
