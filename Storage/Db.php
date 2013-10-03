@@ -81,8 +81,8 @@ class Db
         $id = $this->_adapter->lastInsertId();
         
         foreach ($properties['attachments'] as $data) {
-            $this->_adapter->prepare('INSERT INTO attachments (message_id,name,type,content) values (:message_id,:name,:type,:content)');
-            $this->_adapter->exec(array(
+            $stmt = $this->_adapter->prepare('INSERT INTO attachments (message_id,name,type,content) values (:message_id,:name,:type,:content)');
+            $stmt->execute(array(
                 ':message_id' => $id, 
                 ':content' => $data['content'], 
                 ':name' => $data['name'], 
