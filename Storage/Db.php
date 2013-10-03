@@ -132,6 +132,14 @@ class Db
         return $stmt->fetchAll();
     }
     
+    public function getAttachments($messageId)
+    {
+        $stmt = $this->_adapter
+            ->prepare('SELECT * FROM attachments WHERE message_id = :messageId');
+        $stmt->execute(array(':messageId' => $messageId));
+        return $stmt->fetchAll();
+    }
+    
     public function purge($days)
     {
         $stmt = $this->_adapter
