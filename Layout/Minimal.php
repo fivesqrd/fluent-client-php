@@ -5,7 +5,7 @@ class Minimal
 {
     /**
      * @param string $text
-     * @return \Jifno\Template\Minimal
+     * @return \Jifno\Layout\Minimal
      */
     public function setTitle($text)
     {
@@ -15,7 +15,7 @@ class Minimal
     
     /**
      * @param string $text
-     * @return \Jifno\Template\Minimal
+     * @return \Jifno\Layout\Minimal
      */
     public function addParagraph($text)
     {
@@ -26,7 +26,7 @@ class Minimal
     /**
      * @param string $href
      * @param string $text
-     * @return \Jifno\Template\Minimal
+     * @return \Jifno\Layout\Minimal
      */
     public function addCallout($href, $text)
     {
