@@ -57,7 +57,7 @@ class Db
         if (file_exists($lockfile)) {
             $pid = (int) file_get_contents($lockfile);
         }
-        if (!isset($pid) || posix_getsid($pid) === false) {
+        if (!isset($pid) || $pid === 0 || posix_getsid($pid) === false) {
             file_put_contents($lockfile, $mypid); // create lockfile
         } else {
             return true;
