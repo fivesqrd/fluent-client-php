@@ -3,14 +3,12 @@ namespace Jifno\Storage;
 
 require_once 'Jifno/Message.php';
 
-class Db
+class Db implements \Jifno\Storage
 {
     /**
      * @var \PDO
      */
     protected $_adapter;
-    
-    public static $path;
     
     protected static $_instance;
     
@@ -23,7 +21,7 @@ class Db
             return self::$_instance;
         }
         
-        $path = ($path) ? $path : self::$path;
+        $path = ($path) ? $path : \Jifno\Config::$defaults['path'];
         if (!is_dir($path)) {
             throw new \Exception('Failed trying to create temporary Jifno message store in: '. $path);
         }
@@ -53,7 +51,7 @@ class Db
     
     public function isLocked($mypid)
     {
-        $lockfile = self::$path . '/Jifno-Queue.lock';
+        $lockfile = \Jifno\Config::$defaults['path'] . '/Jifno-Queue.lock';
         if (file_exists($lockfile)) {
             $pid = (int) file_get_contents($lockfile);
         }

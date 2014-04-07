@@ -1,6 +1,8 @@
 <?php
 namespace Jifno;
 
+use Jifno\Storage\Db;
+
 require_once 'Jifno/Storage/Db.php';
 
 class Message
@@ -16,15 +18,6 @@ class Message
     protected $_attachments = array();
     
     protected $_profile;
-    
-    /**
-    * Default options
-    */
-    public static $defaults = array(
-        'name'    => null, 
-        'from'    => null, 
-        'profile' => null
-    );
     
     public function __construct($profile = null)
     {
@@ -74,8 +67,8 @@ class Message
      */
     public function content($value)
     {
-        if (is_object($value)) {
-            $this->_content = $value->getContent();
+        if ($value instanceof \Jifno\Content) {
+            $this->_content = $value->getHtml();
         } else {
             $this->_content = $value;
         }
@@ -103,34 +96,32 @@ class Message
     /**
      * @return int
      */
-    public function queue(Storage\Db $storage)
+    public function queue($storage = null)
     {
+        if (!$storage) {
+            $storage = Storage\Db::getInstance();
+        }
         return $storage->persist($this);
     }
     
     /**
+     * @param object $client
      * @return string $messageId
      */
-    public function send(\Jifno\Client $client)
+    public function send($client = null)
     {
-        $params = array(
-            'sender'      => $this->getSender(),
-            'subject'     => $this->_subject,
-            'recipients'  => array($this->_recipient),
-            'content'     => $this->_content,
-            'attachments' => $this->_attachments,
-            'profile'     => ($this->_profile) ? $this->_profile : self::$defaults['profile']        
-        );
+        if (!$client) {
+            $client = new Client();
+        }
         
-        $response = $client->call('messages', 'create', json_encode($params));
-        return $response['_id'];
+        return $client->send($this);
     }
     
     public function getSender()
     {
         return array(
-            'address' => ($this->_sender['address']) ? $this->_sender['address'] :  self::$defaults['from'], 
-            'name'    => ($this->_sender['name']) ? $this->_sender['name'] : self::$defaults['name']
+            'address' => ($this->_sender['address']) ? $this->_sender['address'] :  Config::$defaults['from'], 
+            'name'    => ($this->_sender['name']) ? $this->_sender['name'] : Config::$defaults['name']
         );
     }
     
