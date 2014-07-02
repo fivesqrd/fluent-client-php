@@ -84,7 +84,7 @@ class Db
             $stmt = $this->_adapter->prepare('INSERT INTO attachments (message_id,name,type,content) values (:message_id,:name,:type,:content)');
             $stmt->execute(array(
                 ':message_id' => $id, 
-                ':content' => $data['content'], 
+                ':content' => base64_decode($data['content']), 
                 ':name' => $data['name'], 
                 ':type' => $data['type']
             ));
