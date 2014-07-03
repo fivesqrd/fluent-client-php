@@ -3,7 +3,7 @@ namespace Jifno\Storage;
 
 require_once 'Jifno/Message.php';
 
-class Db implements \Jifno\Storage
+class Sqlite implements \Jifno\Storage
 {
     /**
      * @var \PDO
@@ -55,16 +55,16 @@ class Db implements \Jifno\Storage
         if (file_exists($lockfile)) {
             $pid = (int) file_get_contents($lockfile);
         }
-        if (!isset($pid) || posix_getsid($pid) === false) {
+        if (!isset($pid) || $pid == 0 || posix_getsid($pid) === false) {
             file_put_contents($lockfile, $mypid); // create lockfile
         } else {
             return true;
         }
     }
     
-    public function persist(\Jifno\Message $message)
+    public function persist(\Jifno\Email $email)
     {
-        $properties = $message->toArray();
+        $properties = $email->toArray();
         $data = array(
             ':sender'    => json_encode($properties['sender']),
             ':recipient' => json_encode($properties['recipient']),
@@ -82,9 +82,9 @@ class Db implements \Jifno\Storage
             $stmt = $this->_adapter->prepare('INSERT INTO attachments (message_id,name,type,content) values (:message_id,:name,:type,:content)');
             $stmt->execute(array(
                 ':message_id' => $id, 
-                ':content' => $data['content'], 
-                ':name' => $data['name'], 
-                ':type' => $data['type']
+                ':content'    => base64_decode($data['content']), 
+                ':name'       => $data['name'], 
+                ':type'       => $data['type']
             ));
         }
         return $id;

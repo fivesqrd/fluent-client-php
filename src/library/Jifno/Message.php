@@ -50,6 +50,9 @@ class Message
     }
 
     /**
+     * @param string $name
+     * @param string $contentType
+     * $param string $content
      * @return \Jifno\Message
      */
     public function attach($name, $type, $content)
@@ -67,7 +70,7 @@ class Message
      */
     public function content($value)
     {
-        if ($value instanceof \Jifno\Content) {
+        if ($value instanceof \Jifno\Message) {
             $this->_content = $value->getHtml();
         } else {
             $this->_content = $value;
@@ -94,26 +97,17 @@ class Message
     }
 
     /**
-     * @return int
-     */
-    public function queue($storage = null)
-    {
-        if (!$storage) {
-            $storage = Storage\Db::getInstance();
-        }
-        return $storage->persist($this);
-    }
-    
-    /**
-     * @param object $client
+     * @param string $transport
      * @return string $messageId
      */
-    public function send($client = null)
+    public function send($transport = 'Standard')
     {
-        if (!$client) {
-            $client = new Client();
+        $class = "\Jifno\Transport\{$transport}";
+        if (!class_exists($class)) {
+            throw new Exception ("{$transport} is not a valid transport");
         }
         
+        $client = new $class;
         return $client->send($this);
     }
     

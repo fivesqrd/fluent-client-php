@@ -17,7 +17,7 @@ class Content
     
     /**
      * @param string $text
-     * @return \Jifno\Content
+     * @return \Jifno\Message
      */
     public function setTitle($text)
     {
@@ -28,7 +28,7 @@ class Content
     
     /**
      * @param string $text
-     * @return \Jifno\Content
+     * @return \Jifno\Message
      */
     public function addParagraph($text)
     {
@@ -39,7 +39,7 @@ class Content
     /**
      * @param string $href
      * @param string $text
-     * @return \Jifno\Content
+     * @return \Jifno\Message
      */
     public function addCallout($href, $text)
     {
@@ -58,23 +58,5 @@ class Content
     public function __toString()
     {
         return $this->getHtml();
-    }
-    
-    public function queue($to, $subject = null)
-    {
-        $message = new Message();
-        return $message->to($to)
-            ->subject($subject ? $subject : $this->_title)
-            ->content($this)
-            ->queue();
-    }
-    
-    public function send($to, $subject = null)
-    {
-        $message = new Message();
-        return $message->to($to)
-            ->subject($subject ? $subject : $this->_title)
-            ->content($this)
-            ->send();
     }
 }

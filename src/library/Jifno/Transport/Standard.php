@@ -1,9 +1,9 @@
 <?php
-namespace Jifno;
+namespace Jifno\Transport;
 
 require_once 'Jifno/Exception.php';
 
-class Client
+class Standard implements \Jifno\Transport
 {
     protected $_curl;
     
