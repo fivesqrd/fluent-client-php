@@ -1,0 +1,17 @@
+{
+	"name": "click-science/jifno-sdk-php",
+	"description": "The Jifno PHP SDK",
+	"require": {},
+    	"autoload": {
+        	"classmap": ["src/library"]
+    	},
+    	"version": "1.0.0",
+    	"license": ["Click Science License"],
+    	"authors": [
+        	{
+            		"name": "Christian Burger",
+            		"email": "christian@clickscience.co.za",
+            		"role": "Developer"
+        	}
+    	]
+}
