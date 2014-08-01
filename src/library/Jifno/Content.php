@@ -10,14 +10,16 @@ class Content
     /**
      * @param string $layout
      */
-    public function __construct($theme = 'minimal')
+    public function __construct($theme = null)
     {
-        $this->_theme = $theme;
+        if (!empty($theme)) {
+            $this->_theme = $theme;
+        }
     }
     
     /**
      * @param string $text
-     * @return \Jifno\Message
+     * @return \Jifno\Content
      */
     public function setTitle($text)
     {
@@ -28,7 +30,7 @@ class Content
     
     /**
      * @param string $text
-     * @return \Jifno\Message
+     * @return \Jifno\Content
      */
     public function addParagraph($text)
     {
@@ -39,7 +41,7 @@ class Content
     /**
      * @param string $href
      * @param string $text
-     * @return \Jifno\Message
+     * @return \Jifno\Content
      */
     public function addCallout($href, $text)
     {

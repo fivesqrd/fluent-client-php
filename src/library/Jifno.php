@@ -24,12 +24,43 @@ class Jifno
     protected $_message;
     
     /**
+     * Default options
+     */
+    public static $defaults = array(
+        'key'             => null,
+        'sender'          => array('name' => null, 'address' => null),
+        'theme'           => 'minimal',
+        'logo'            => null,
+        'color'           => null,
+        'teaser'          => null,
+        'footer'          => null,
+        'transport'       => 'Standard',
+        'storage'         => 'Sqlite',
+        'url'             => 'https://jifno.clickapp.co.za/v1'
+    );
+    
+    /**
      * @param string $theme
      * @return \Jifno
      */
-    public static function factory($theme = 'minimal')
+    public static function factory($template = null)
     {
-        return new self(new \Jifno\Message(), new \Jifno\Content($theme));
+        if ($template instanceof \Jifno\Template) {
+            $content = $template->getContent();
+        } else {
+            $content = new \Jifno\Content(self::$defaults['theme']);
+        }
+        
+        return new self(new \Jifno\Message(), $content);
+    }
+    
+    public static function getDefault($key, $value = null)
+    {
+        if (!empty($value)) {
+            return $value;
+        }
+        
+        return self::$defaults[$key];
     }
     
     public function __construct($message, $content)
@@ -69,7 +100,7 @@ class Jifno
      * @param string $subject
      * @param string $transport
      */
-    public function send($to, $subject, $transport = 'Standard')
+    public function send($to, $subject, $transport = null)
     {
         return $this->_message->to($to)
             ->subject($subject ? $subject : $this->_title)

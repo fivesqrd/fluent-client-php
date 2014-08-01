@@ -70,8 +70,10 @@ class Message
      */
     public function content($value)
     {
-        if ($value instanceof \Jifno\Message) {
+        if ($value instanceof \Jifno\Content) {
             $this->_content = $value->getHtml();
+        } elseif ($value instanceof \Jifno\Template) {
+            $this->_content = $value->getContent()->getHtml();
         } else {
             $this->_content = $value;
         }
@@ -100,8 +102,10 @@ class Message
      * @param string $transport
      * @return string $messageId
      */
-    public function send($transport = 'Standard')
+    public function send($transport = null)
     {
+        $transport = \Jifno::getDefault('transport', $transport);
+        
         $class = "\Jifno\Transport\{$transport}";
         if (!class_exists($class)) {
             throw new Exception ("{$transport} is not a valid transport");
@@ -113,10 +117,10 @@ class Message
     
     public function getSender()
     {
-        return array(
-            'address' => ($this->_sender['address']) ? $this->_sender['address'] :  Config::$defaults['from'], 
-            'name'    => ($this->_sender['name']) ? $this->_sender['name'] : Config::$defaults['name']
-        );
+        if (isset($this->_sender['address']) && !empty($this->_sender['address'])) {
+            return array('address' => $this->_sender['address'], 'name' => $this->_sender['name']);
+        }
+        return \Jifno::getDefault('sender');
     }
     
     /**
@@ -131,7 +135,7 @@ class Message
             'content'     => $this->_content,
             'html'        => true,
             'attachments' => $this->_attachments,
-            'profile'     => ($this->_profile) ? $this->_profile : self::$defaults['profile']        
+            'profile'     => \Jifno::getDefault('profile', $this->_profile)        
         );
     }
 }
