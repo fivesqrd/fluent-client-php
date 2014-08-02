@@ -1,18 +1,18 @@
 <?php
 namespace Jifno\Storage;
 
-require_once 'Jifno/Message.php';
-
-class Db
+class Sqlite implements \Jifno\Storage
 {
     /**
      * @var \PDO
      */
     protected $_adapter;
     
-    public static $path;
-    
     protected static $_instance;
+    
+    protected $_path;
+    
+    public static $path;
     
     /**
      * @return Jifno\Storage\Db
@@ -23,50 +23,63 @@ class Db
             return self::$_instance;
         }
         
-        $path = ($path) ? $path : self::$path;
+        return new self($path);
+    }
+
+    public function __construct($path = null)
+    {
+        $path = $this->_getPath($path);
         if (!is_dir($path)) {
             throw new \Exception('Failed trying to create temporary Jifno message store in: '. $path);
         }
         $file = $path. '/Jifno-Queue.sqlite3';
         $exists = file_exists($file);
         
-        $db = new \PDO('sqlite:' . $file);
-        $db->setAttribute(\PDO::ATTR_ERRMODE,\PDO::ERRMODE_EXCEPTION);
+        $this->_adapter = new \PDO('sqlite:' . $file);
+        $this->_adapter->setAttribute(\PDO::ATTR_ERRMODE,\PDO::ERRMODE_EXCEPTION);
         
         if (!$exists) {
-            self::createSchema($db);            
+            $this->_createSchema($this->_adapter);
+            chmod($file, 0777);
         }
-        
-        return new self($db);
     }
     
-    public static function createSchema(\PDO $db)
+    protected function _getPath($default)
+    {
+        if (!empty($default)) {
+            $this->_path = $default;
+            return $this->_path;
+        }
+        
+        if (!empty(self::$path)) {
+            return self::$path;
+        }
+        
+        return sys_get_temp_dir();
+    }
+
+    protected function _createSchema(\PDO $db)
     {
         $db->query('CREATE TABLE messages (id integer primary key autoincrement, profile varchar(255), sender varchar(255), recipient varchar(255), subject varchar(255), content blob, status varchar(255), created_at datetime, transmitted_at datetime, reference varchar(255), error varchar(255))');
         $db->query('CREATE TABLE attachments (id integer primary key autoincrement, message_id int(11), type varchar(255), name varchar(255), content blob)');
     }
     
-    public function __construct(\PDO $adapter)
-    {
-        $this->_adapter = $adapter;
-    }
-    
     public function isLocked($mypid)
     {
-        $lockfile = self::$path . '/Jifno-Queue.lock';
+        $lockfile = $this->_getPath($this->_path) . '/Jifno-Queue.lock';
         if (file_exists($lockfile)) {
             $pid = (int) file_get_contents($lockfile);
         }
-        if (!isset($pid) || $pid === 0 || posix_getsid($pid) === false) {
+        if (!isset($pid) || $pid == 0 || posix_getsid($pid) === false) {
             file_put_contents($lockfile, $mypid); // create lockfile
         } else {
             return true;
         }
     }
     
-    public function persist(\Jifno\Message $message)
+    public function persist(\Jifno\Email $email)
     {
-        $properties = $message->toArray();
+        $properties = $email->toArray();
         $data = array(
             ':sender'    => json_encode($properties['sender']),
             ':recipient' => json_encode($properties['recipient']),
@@ -84,9 +97,9 @@ class Db
             $stmt = $this->_adapter->prepare('INSERT INTO attachments (message_id,name,type,content) values (:message_id,:name,:type,:content)');
             $stmt->execute(array(
                 ':message_id' => $id, 
-                ':content' => base64_decode($data['content']), 
-                ':name' => $data['name'], 
-                ':type' => $data['type']
+                ':content'    => base64_decode($data['content']), 
+                ':name'       => $data['name'], 
+                ':type'       => $data['type']
             ));
         }
         return $id;

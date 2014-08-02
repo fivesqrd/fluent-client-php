@@ -1,14 +1,10 @@
 <?php
-namespace Jifno;
+namespace Jifno\Transport;
 
 require_once 'Jifno/Exception.php';
 
-class Client
+class Standard implements \Jifno\Transport
 {
-    public static $key;
-    
-    public static $URL = 'http://api.jifno.com/v1';
-    
     protected $_curl;
     
     protected $_debug;
@@ -21,17 +17,33 @@ class Client
         $this->_key;
     }
     
-    protected function _getKey()
+    public function send(Jifno\Message $message)
     {
-        return ($this->_key) ? $this->_key : self::$key;
+        $properties = $message->toArray();
+        $params = array(
+            'sender'      => $properties['sender'],
+            'subject'     => $properties['subject'],
+            'recipients'  => array($properties['recipient']),
+            'content'     => $properties['content'],
+            'attachments' => $properties['attachments'],
+            'profile'     => $properties['profile']
+        );
+        
+        $response = $this->_call('messages', 'create', json_encode($params));
+        return $response['_id'];
     }
     
-    public function call($resource, $method, $params, $debug = false)
+    protected function _getKey()
+    {
+        return ($this->_key) ? $this->_key : Config::$defaults['key'];
+    }
+    
+    protected function _call($resource, $method, $params, $debug = false)
     {
         $this->_debug = $debug;
         $payload = '{"key": "' . $this->_getKey() . '", "message": ' . $params . '}';
         
-        curl_setopt($this->_curl, CURLOPT_URL, self::$URL);
+        curl_setopt($this->_curl, CURLOPT_URL, Config::$defaults['url']);
         curl_setopt($this->_curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
         curl_setopt($this->_curl, CURLOPT_POSTFIELDS, $payload);
         curl_setopt($this->_curl, CURLOPT_VERBOSE, $debug);
@@ -48,7 +60,7 @@ class Client
         }
         
         $start = microtime(true);
-        $this->_log('Call to ' . self::$URL . ': ' . $params);
+        $this->_log('Call to ' . Config::$defaults['url'] . ': ' . $params);
         if ($debug) {
             $curl_buffer = fopen('php://memory', 'w+');
             curl_setopt($this->_curl, CURLOPT_STDERR, $curl_buffer);
@@ -67,7 +79,7 @@ class Client
         $this->_log('Got response: ' . $response_body);
         
         if(curl_error($this->_curl)) {
-            throw new \Jifno\Exception("API call to " . self::$URL . " failed: " . curl_error($this->_curl));
+            throw new \Jifno\Exception("API call to " . Config::$defaults['url'] . " failed: " . curl_error($this->_curl));
         }
         $result = json_decode($response_body, true);
         if ($result === null) {

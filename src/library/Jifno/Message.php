@@ -1,6 +1,8 @@
 <?php
 namespace Jifno;
 
+use Jifno\Storage\Db;
+
 require_once 'Jifno/Storage/Db.php';
 
 class Message
@@ -16,15 +18,6 @@ class Message
     protected $_attachments = array();
     
     protected $_profile;
-    
-    /**
-    * Default options
-    */
-    public static $defaults = array(
-        'name'    => null, 
-        'from'    => null, 
-        'profile' => null
-    );
     
     public function __construct($profile = null)
     {
@@ -57,6 +50,9 @@ class Message
     }
 
     /**
+     * @param string $name
+     * @param string $contentType
+     * $param string $content
      * @return \Jifno\Message
      */
     public function attach($name, $type, $content)
@@ -74,8 +70,10 @@ class Message
      */
     public function content($value)
     {
-        if (is_object($value)) {
-            $this->_content = $value->getContent();
+        if ($value instanceof \Jifno\Content) {
+            $this->_content = $value->getHtml();
+        } elseif ($value instanceof \Jifno\Template) {
+            $this->_content = $value->getContent()->getHtml();
         } else {
             $this->_content = $value;
         }
@@ -101,37 +99,28 @@ class Message
     }
 
     /**
-     * @return int
-     */
-    public function queue(Storage\Db $storage)
-    {
-        return $storage->persist($this);
-    }
-    
-    /**
+     * @param string $transport
      * @return string $messageId
      */
-    public function send(\Jifno\Client $client)
+    public function send($transport = null)
     {
-        $params = array(
-            'sender'      => $this->getSender(),
-            'subject'     => $this->_subject,
-            'recipients'  => array($this->_recipient),
-            'content'     => $this->_content,
-            'attachments' => $this->_attachments,
-            'profile'     => ($this->_profile) ? $this->_profile : self::$defaults['profile']        
-        );
+        $transport = \Jifno::getDefault('transport', $transport);
         
-        $response = $client->call('messages', 'create', json_encode($params));
-        return $response['_id'];
+        $class = "\Jifno\Transport\{$transport}";
+        if (!class_exists($class)) {
+            throw new Exception ("{$transport} is not a valid transport");
+        }
+        
+        $client = new $class;
+        return $client->send($this);
     }
     
     public function getSender()
     {
-        return array(
-            'address' => ($this->_sender['address']) ? $this->_sender['address'] :  self::$defaults['from'], 
-            'name'    => ($this->_sender['name']) ? $this->_sender['name'] : self::$defaults['name']
-        );
+        if (isset($this->_sender['address']) && !empty($this->_sender['address'])) {
+            return array('address' => $this->_sender['address'], 'name' => $this->_sender['name']);
+        }
+        return \Jifno::getDefault('sender');
     }
     
     /**
@@ -146,7 +135,7 @@ class Message
             'content'     => $this->_content,
             'html'        => true,
             'attachments' => $this->_attachments,
-            'profile'     => ($this->_profile) ? $this->_profile : self::$defaults['profile']        
+            'profile'     => \Jifno::getDefault('profile', $this->_profile)        
         );
     }
 }

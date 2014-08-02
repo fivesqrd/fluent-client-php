@@ -1,21 +1,36 @@
 <?php
-namespace Jifno\Layout;
+namespace Jifno;
 
-class Minimal
+class Content
 {
+    protected $_theme = 'minimal';
+    
+    protected $_title;
+    
+    /**
+     * @param string $layout
+     */
+    public function __construct($theme = null)
+    {
+        if (!empty($theme)) {
+            $this->_theme = $theme;
+        }
+    }
+    
     /**
      * @param string $text
-     * @return \Jifno\Layout\Minimal
+     * @return \Jifno\Content
      */
     public function setTitle($text)
     {
         $this->_title = '<h2>' . $text . '</h2>';
+        $this->_title = $text;
         return $this;
     }
     
     /**
      * @param string $text
-     * @return \Jifno\Layout\Minimal
+     * @return \Jifno\Content
      */
     public function addParagraph($text)
     {
@@ -26,7 +41,7 @@ class Minimal
     /**
      * @param string $href
      * @param string $text
-     * @return \Jifno\Layout\Minimal
+     * @return \Jifno\Content
      */
     public function addCallout($href, $text)
     {
@@ -39,7 +54,7 @@ class Minimal
      */
     public function getHtml()
     {
-        return '<html><body class="minimal">' . $this->_title . $this->_content . '</body></html>';
+        return '<html><body class="' . $this->_theme . '">' . $this->_title . $this->_content . '</body></html>';
     }
     
     public function __toString()
