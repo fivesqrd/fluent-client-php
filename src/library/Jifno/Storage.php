@@ -3,7 +3,7 @@ namespace Jifno;
 
 interface Storage
 {
-    public function persist(\Jifno\Email $email);
+    public function persist(\Jifno\Message $email);
     
     public function delete($messageId);
     

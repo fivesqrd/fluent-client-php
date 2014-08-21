@@ -1,8 +1,6 @@
 <?php
 namespace Jifno\Transport;
 
-require_once 'Jifno/Exception.php';
-
 class Local implements \Jifno\Transport
 {
     protected $_debug;
@@ -11,12 +9,12 @@ class Local implements \Jifno\Transport
     
     public function __construct($storage = 'Sqlite')
     {
-        $class = "Storage\{$storage}";
+        $class = 'Jifno\\Storage\\' . $storage;
         $this->_storage = $class::getInstance();
     }
     
-    public function send(Jifno\Message $message)
+    public function send(\Jifno\Message $message)
     {
-        return $this->_storage->persist($this);
+        return $this->_storage->persist($message);
     }
 }

@@ -1,8 +1,6 @@
 <?php
 namespace Jifno\Transport;
 
-require_once 'Jifno/Exception.php';
-
 class Standard implements \Jifno\Transport
 {
     protected $_curl;
@@ -17,7 +15,7 @@ class Standard implements \Jifno\Transport
         $this->_key;
     }
     
-    public function send(Jifno\Message $message)
+    public function send(\Jifno\Message $message)
     {
         $properties = $message->toArray();
         $params = array(
@@ -35,7 +33,7 @@ class Standard implements \Jifno\Transport
     
     protected function _getKey()
     {
-        return ($this->_key) ? $this->_key : Config::$defaults['key'];
+        return ($this->_key) ? $this->_key : \Jifno::$defaults['key'];
     }
     
     protected function _call($resource, $method, $params, $debug = false)
@@ -43,7 +41,7 @@ class Standard implements \Jifno\Transport
         $this->_debug = $debug;
         $payload = '{"key": "' . $this->_getKey() . '", "message": ' . $params . '}';
         
-        curl_setopt($this->_curl, CURLOPT_URL, Config::$defaults['url']);
+        curl_setopt($this->_curl, CURLOPT_URL, \Jifno::$defaults['url']);
         curl_setopt($this->_curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
         curl_setopt($this->_curl, CURLOPT_POSTFIELDS, $payload);
         curl_setopt($this->_curl, CURLOPT_VERBOSE, $debug);
@@ -60,7 +58,7 @@ class Standard implements \Jifno\Transport
         }
         
         $start = microtime(true);
-        $this->_log('Call to ' . Config::$defaults['url'] . ': ' . $params);
+        $this->_log('Call to ' . \Jifno::$defaults['url'] . ': ' . $params);
         if ($debug) {
             $curl_buffer = fopen('php://memory', 'w+');
             curl_setopt($this->_curl, CURLOPT_STDERR, $curl_buffer);
@@ -79,7 +77,7 @@ class Standard implements \Jifno\Transport
         $this->_log('Got response: ' . $response_body);
         
         if(curl_error($this->_curl)) {
-            throw new \Jifno\Exception("API call to " . Config::$defaults['url'] . " failed: " . curl_error($this->_curl));
+            throw new \Jifno\Exception("API call to " . \Jifno::$defaults['url'] . " failed: " . curl_error($this->_curl));
         }
         $result = json_decode($response_body, true);
         if ($result === null) {

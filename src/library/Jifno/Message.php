@@ -1,10 +1,6 @@
 <?php
 namespace Jifno;
 
-use Jifno\Storage\Db;
-
-require_once 'Jifno/Storage/Db.php';
-
 class Message
 {
     protected $_sender = array('address' => null, 'name' => null);
@@ -99,14 +95,14 @@ class Message
     }
 
     /**
-     * @param string $transport
+     * @param string $transport local or standard
      * @return string $messageId
      */
     public function send($transport = null)
     {
-        $transport = \Jifno::getDefault('transport', $transport);
+        $transport = \Jifno::getDefault('transport', ucfirst($transport));
         
-        $class = "\Jifno\Transport\{$transport}";
+        $class = '\\Jifno\\Transport\\' . $transport;
         if (!class_exists($class)) {
             throw new Exception ("{$transport} is not a valid transport");
         }

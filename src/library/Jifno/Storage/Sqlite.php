@@ -77,7 +77,7 @@ class Sqlite implements \Jifno\Storage
         }
     }
     
-    public function persist(\Jifno\Email $email)
+    public function persist(\Jifno\Message $email)
     {
         $properties = $email->toArray();
         $data = array(
