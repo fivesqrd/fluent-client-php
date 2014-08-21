@@ -39,6 +39,13 @@ class Jifno
         'url'             => 'https://jifno.clickapp.co.za/v1'
     );
     
+    public static function setDefaults($values)
+    {
+        foreach ($values as $key => $value) {
+            self::$defaults[$key] = $value;
+        }
+    }
+    
     /**
      * @param string $theme
      * @return \Jifno
