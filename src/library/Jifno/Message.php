@@ -12,13 +12,6 @@ class Message
     protected $_content;
     
     protected $_attachments = array();
-    
-    protected $_profile;
-    
-    public function __construct($profile = null)
-    {
-        $this->_profile = $profile;
-    }
 
     /**
      * @return \Jifno\Message
@@ -131,7 +124,7 @@ class Message
             'content'     => $this->_content,
             'html'        => true,
             'attachments' => $this->_attachments,
-            'profile'     => \Jifno::getDefault('profile', $this->_profile)        
+            //'profile'     => \Jifno::getDefault('profile', $this->_profile)        
         );
     }
 }

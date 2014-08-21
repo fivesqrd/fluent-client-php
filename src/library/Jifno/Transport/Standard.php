@@ -24,7 +24,7 @@ class Standard implements \Jifno\Transport
             'recipients'  => array($properties['recipient']),
             'content'     => $properties['content'],
             'attachments' => $properties['attachments'],
-            'profile'     => $properties['profile']
+            //'profile'     => $properties['profile']
         );
         
         $response = $this->_call('messages', 'create', json_encode($params));
