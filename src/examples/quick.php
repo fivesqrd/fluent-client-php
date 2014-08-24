@@ -1,7 +1,5 @@
 <?php
 
-use Jifno\quick;
-
 // Ensure library/ is on include_path
 set_include_path(implode(PATH_SEPARATOR, array(
     realpath(__DIR__ . '/../library'),

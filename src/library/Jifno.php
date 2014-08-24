@@ -36,7 +36,6 @@ class Jifno
         'footer'          => null,
         'transport'       => 'Standard',
         'storage'         => 'Sqlite',
-        'url'             => 'https://jifno.clickapp.co.za/v1'
     );
     
     public static function setDefaults($values)
