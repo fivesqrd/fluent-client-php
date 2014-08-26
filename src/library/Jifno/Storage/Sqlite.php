@@ -1,8 +1,6 @@
 <?php
 namespace Jifno\Storage;
 
-require_once 'Jifno/Storage.php';
-
 class Sqlite implements \Jifno\Storage
 {
     /**
