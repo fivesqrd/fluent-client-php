@@ -13,7 +13,7 @@ class Standard implements \Jifno\Transport
     
     protected $_key;
     
-    public static $url = 'https://jifno.clickapp.co.za/v1';
+    public static $url = 'https://jifno.clickapp.co.za/v2';
     
     public function __construct($key = null)
     {
