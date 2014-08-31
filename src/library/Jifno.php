@@ -2,6 +2,10 @@
 
 use Jifno\Exception;
 
+require_once 'Jifno/Content.php';
+require_once 'Jifno/Message.php';
+require_once 'Jifno/Exception.php';
+
 /**
  * 
  * @author cjb
@@ -29,7 +33,7 @@ class Jifno
     public static $defaults = array(
         'key'             => null,
         'sender'          => array('name' => null, 'address' => null),
-        'theme'           => 'minimal',
+        'theme'           => 'clean',
         'logo'            => null,
         'color'           => null,
         'teaser'          => null,
@@ -93,7 +97,7 @@ class Jifno
         } elseif (method_exists($this->_message, $name)) {
             $object = $this->_message;
         } else {
-            throw new \Jifno\Exception('Invalid method ' . $name);
+            throw new Exception('Invalid method ' . $name);
         }
         
         call_user_func_array(array($object, $name), $arguments);

@@ -2,6 +2,8 @@
 namespace Jifno\Transport;
 
 require_once 'Jifno/Transport.php';
+require_once 'Jifno/Exception.php';
+require_once 'Jifno.php';
 
 class Standard implements \Jifno\Transport
 {
@@ -28,22 +30,27 @@ class Standard implements \Jifno\Transport
             'recipients'  => array($properties['recipient']),
             'content'     => $properties['content'],
             'attachments' => $properties['attachments'],
-            //'profile'     => $properties['profile']
         );
         
         $response = $this->_call('message', 'create', json_encode($params));
         return $response['_id'];
     }
     
-    protected function _getKey()
-    {
-        return ($this->_key) ? $this->_key : \Jifno::$defaults['key'];
-    }
-    
     protected function _call($resource, $method, $params, $debug = false)
     {
         $this->_debug = $debug;
-        $payload = '{"key": "' . $this->_getKey() . '", "message": ' . $params . '}';
+        
+        $profile = array(
+            'theme'     => \Jifno::getDefault('theme'),
+            'logo'      => \Jifno::getDefault('logo'),
+            'color'     => \Jifno::getDefault('color'),
+            'teaser'    => \Jifno::getDefault('teaser'),
+            'footer'    => \Jifno::getDefault('footer')
+        );
+        
+        $payload =  '{"key": "' . \Jifno::getDefault('key', $this->_key) . '", ';
+        $payload .= '"profile": ' . json_encode($profile) . ', '; 
+        $payload .= '"message": ' . $params . '}'; 
         
         $url = self::$url . '/' . $resource;
         
