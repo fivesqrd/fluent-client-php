@@ -1,0 +1,23 @@
+//curl -X POST -d @payload.json https://jifno.clickapp.co.za/v2/message
+{
+    "key": "9fe630283b5a62833b04023c20e43915", 
+    "profile": {
+        "theme"  : "clean",
+        "logo"   : "Test Logo",
+        "color"  : "#4986e7",
+        "teaser" : null,
+        "footer" : "ACME"
+    }, 
+    "message": {
+        "sender": {
+            "name": "ACME",
+            "address": "christian@photofrog.co.za"
+        },
+        "subject" : "My little pony",
+        "recipients": [
+            {"address":"christian@thinkopen.biz","name":null}
+        ],
+        "content": "<html><body class=\"minimal\"><h2>My little pony</h2><div class=\"paragraph\">I love my pony very much.<\/div><\/body><\/html>",
+        "attachments": []
+    }
+}
