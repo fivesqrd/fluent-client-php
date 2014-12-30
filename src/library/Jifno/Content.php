@@ -24,7 +24,6 @@ class Content
     public function setTitle($text)
     {
         $this->_title = '<h2>' . $text . '</h2>';
-        $this->_title = $text;
         return $this;
     }
     
