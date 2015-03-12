@@ -154,11 +154,16 @@ class Sqlite implements \Jifno\Storage
     
     public function purge($days)
     {
-        $stmt = $this->_adapter
-            ->prepare('DELETE FROM messages WHERE status != :status AND created_at < :date');
-        $stmt->execute(array(
+        $messages = $this->_adapter
+            ->prepare('DELETE FROM messages WHERE status != :status AND messages.created_at < :date');
+        
+        $messages->execute(array(
             ':status' => 'queued', 
             ':date' => date("Y-m-d H:i:s", time() - $days * 86400)
         ));
+        
+        $attachments = $this->_adapter
+            ->prepare('DELETE FROM attachments WHERE id IN (SELECT a.id FROM attachments a left join messages m on a.message_id = m.id where m.id is null)');
+        $attachments->execute();
     }
 }
