@@ -1,10 +1,10 @@
 <?php
 
-use Jifno\Message;
+use Fluent\Message;
 
-use Jifno\Content;
+use Fluent\Content;
 
-use Jifno\Template;
+use Fluent\Template;
 
 // Ensure library/ is on include_path
 set_include_path(implode(PATH_SEPARATOR, array(
@@ -12,13 +12,13 @@ set_include_path(implode(PATH_SEPARATOR, array(
     get_include_path(),
 )));
 
-require_once 'Jifno/Email.php';
+require_once 'Fluent/Email.php';
 
 
-$messageId = Jifno::factory(new MyTemplate())
+$messageId = Fluent::factory(new MyTemplate())
     ->send('everyone@internet.com', 'My little pony');
 
-$message = new Jifno\Message();
+$message = new Fluent\Message();
 
 $message->to($to)
     ->subject($subject)

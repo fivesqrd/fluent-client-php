@@ -1,5 +1,5 @@
 <?php
-namespace Jifno;
+namespace Fluent\Email;
 
 class Content
 {
@@ -19,7 +19,7 @@ class Content
     
     /**
      * @param string $text
-     * @return \Jifno\Content
+     * @return \Fluent\Content
      */
     public function setTitle($text)
     {
@@ -29,7 +29,7 @@ class Content
     
     /**
      * @param string $text
-     * @return \Jifno\Content
+     * @return \Fluent\Content
      */
     public function addParagraph($text)
     {
@@ -40,7 +40,7 @@ class Content
     /**
      * @param string $href
      * @param string $text
-     * @return \Jifno\Content
+     * @return \Fluent\Content
      */
     public function addCallout($href, $text)
     {

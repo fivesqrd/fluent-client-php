@@ -1,8 +1,8 @@
 <?php
 
-use Jifno\Content;
+use Fluent\Content;
 
-use Jifno\Template;
+use Fluent\Template;
 
 // Ensure library/ is on include_path
 set_include_path(implode(PATH_SEPARATOR, array(
@@ -10,9 +10,9 @@ set_include_path(implode(PATH_SEPARATOR, array(
     get_include_path(),
 )));
 
-require_once 'Jifno/Email.php';
+require_once 'Fluent/Email.php';
 
-class MyTemplate extends Jifno\Template
+class MyTemplate extends Fluent\Template
 {
     const THEME = 'minimal';
     
@@ -26,12 +26,12 @@ class MyTemplate extends Jifno\Template
     
     /**
      * (non-PHPdoc)
-     * @see \Jifno\Template::getContent()
-     * @return \Jifno\Content
+     * @see \Fluent\Template::getContent()
+     * @return \Fluent\Content
      */
     public function getContent()
     {
-        $content = new \Jifno\Content(self::THEME);
+        $content = new \Fluent\Content(self::THEME);
         return $content->setTitle($text)
             ->addParagraph($text)
             ->addParagraph($text)
@@ -39,7 +39,7 @@ class MyTemplate extends Jifno\Template
     }
 }
 
-$message = new Jifno\Message();
+$message = new Fluent\Message();
 $messageId = $message->to($to)
     ->subject($subject)
     ->content(new MyTemplate($user))

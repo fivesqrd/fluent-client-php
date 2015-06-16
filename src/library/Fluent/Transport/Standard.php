@@ -1,11 +1,11 @@
 <?php
-namespace Jifno\Transport;
+namespace Fluent\Transport;
 
-require_once 'Jifno/Transport.php';
-require_once 'Jifno/Exception.php';
-require_once 'Jifno.php';
+require_once 'Fluent/Transport.php';
+require_once 'Fluent/Exception.php';
+require_once 'Fluent.php';
 
-class Standard implements \Jifno\Transport
+class Standard implements \Fluent\Transport
 {
     protected $_curl;
     
@@ -21,7 +21,7 @@ class Standard implements \Jifno\Transport
         $this->_key;
     }
     
-    public function send(\Jifno\Message $message)
+    public function send(\Fluent\Message $message)
     {
         $properties = $message->toArray();
         $params = array(
@@ -41,14 +41,14 @@ class Standard implements \Jifno\Transport
         $this->_debug = $debug;
         
         $profile = array(
-            'theme'     => \Jifno::getDefault('theme'),
-            'logo'      => \Jifno::getDefault('logo'),
-            'color'     => \Jifno::getDefault('color'),
-            'teaser'    => \Jifno::getDefault('teaser'),
-            'footer'    => \Jifno::getDefault('footer')
+            'theme'     => \Fluent::getDefault('theme'),
+            'logo'      => \Fluent::getDefault('logo'),
+            'color'     => \Fluent::getDefault('color'),
+            'teaser'    => \Fluent::getDefault('teaser'),
+            'footer'    => \Fluent::getDefault('footer')
         );
         
-        $payload =  '{"key": "' . \Jifno::getDefault('key', $this->_key) . '", ';
+        $payload =  '{"key": "' . \Fluent::getDefault('key', $this->_key) . '", ';
         $payload .= '"profile": ' . json_encode($profile) . ', '; 
         $payload .= '"message": ' . $params . '}'; 
         
@@ -66,7 +66,7 @@ class Standard implements \Jifno\Transport
                 curl_setopt($this->_curl, CURLOPT_POST, true);
                 break;
             default:
-                throw new \Jifno\Exception('Invalid method: ' . $method);
+                throw new \Fluent\Exception('Invalid method: ' . $method);
                 break;
         }
         
@@ -90,14 +90,14 @@ class Standard implements \Jifno\Transport
         $this->_log('Got response: ' . $response_body);
         
         if(curl_error($this->_curl)) {
-            throw new \Jifno\Exception("API call to " . $url . " failed: " . curl_error($this->_curl));
+            throw new \Fluent\Exception("API call to " . $url . " failed: " . curl_error($this->_curl));
         }
         $result = json_decode($response_body, true);
         if ($result === null) {
-            throw new \Jifno\Exception('We were unable to decode the JSON response from the Jifno API: ' . $response_body);
+            throw new \Fluent\Exception('We were unable to decode the JSON response from the Fluent API: ' . $response_body);
         }
         if(floor($info['http_code'] / 100) >= 4) {
-            throw new \Jifno\Exception("{$info['http_code']}, " . $result['error']);
+            throw new \Fluent\Exception("{$info['http_code']}, " . $result['error']);
         }
         return $result;
     }

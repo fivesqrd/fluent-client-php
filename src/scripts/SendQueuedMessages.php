@@ -3,7 +3,7 @@ require_once dirname(__FILE__) . '/bootstrap.php';
 
 $path = dirname(__FILE__) . '/../temp';
 
-$storage = Jifno\Storage\Sqlite::getInstance();
+$storage = Fluent\Storage\Sqlite::getInstance();
 if ($storage->isLocked(getmypid())) {
     print "PID is still alive! can not run twice!\n";
     exit;
@@ -12,7 +12,7 @@ if ($storage->isLocked(getmypid())) {
 foreach ($storage->getQueue() as $message) {
     try {
         echo date("Y-m-d H:i:s") . " Sending '{$message['subject']}' to {$message['recipient']}\n";
-        $object = (new Jifno\Message($message['profile']))
+        $object = (new Fluent\Message($message['profile']))
             ->from(json_decode($message['sender'], true))
             ->to(json_decode($message['recipient'], true))
             ->subject($message['subject'])

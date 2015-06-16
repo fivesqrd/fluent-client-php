@@ -6,10 +6,10 @@ set_include_path(implode(PATH_SEPARATOR, array(
     get_include_path(),
 )));
 
-require_once 'Jifno.php';
-require_once 'Jifno/Transport/Standard.php';
+require_once 'Fluent.php';
+require_once 'Fluent/Transport/Standard.php';
 
-Jifno::setDefaults(array(
+Fluent::setDefaults(array(
     'key'      => '12345',
     'sender'   => array('name' => 'ACME', 'address' => 'christian@photofrog.co.za'),
     'color'    => '#4986e7',
@@ -18,12 +18,12 @@ Jifno::setDefaults(array(
 ));
 
 try {
-    $messageId = Jifno::factory()
+    $messageId = Fluent::factory()
         ->setTitle('My little pony')
         ->addParagraph('I love my pony very much.')
         ->addCallout('http://www.mypony.com', 'Like my pony')
         ->send('christian@thinkopen.biz', 'My little pony', 'standard');
     echo 'Sent message: ' . $messageId . "\n";
-} catch (Jifno\Exception $e) {
+} catch (Fluent\Exception $e) {
     echo 'Error: ' . $e->getMessage() . "\n";
 }

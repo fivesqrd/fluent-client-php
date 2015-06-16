@@ -1,10 +1,10 @@
 <?php
-namespace Jifno;
+namespace Fluent\Email;
 
 interface Template
 {
     /**
-     * @return \Jifno\Content
+     * @return \Fluent\Email\Content
      */
     public function getContent();
 }

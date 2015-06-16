@@ -1,5 +1,5 @@
 <?php
-namespace Jifno;
+namespace Fluent\Email;
 
 class Message
 {
@@ -14,7 +14,7 @@ class Message
     protected $_attachments = array();
 
     /**
-     * @return \Jifno\Message
+     * @return \Fluent\Email\Message
      */
     public function subject($value)
     {
@@ -23,7 +23,7 @@ class Message
     }
     
     /**
-     * @return \Jifno\Message
+     * @return \Fluent\Email\Message
      */
     public function to($address, $name = null)
     {
@@ -42,7 +42,7 @@ class Message
      * @param string $name
      * @param string $contentType
      * $param string $content
-     * @return \Jifno\Message
+     * @return \Fluent\Email\Message
      */
     public function attach($name, $type, $content)
     {
@@ -55,13 +55,13 @@ class Message
     }
 
     /**
-     * @return \Jifno\Message
+     * @return \Fluent\Email\Message
      */
     public function content($value)
     {
-        if ($value instanceof \Jifno\Content) {
+        if ($value instanceof \Fluent\Content) {
             $this->_content = $value->getHtml();
-        } elseif ($value instanceof \Jifno\Template) {
+        } elseif ($value instanceof \Fluent\Template) {
             $this->_content = $value->getContent()->getHtml();
         } else {
             $this->_content = $value;
@@ -72,7 +72,7 @@ class Message
     /**
      * @param string $address
      * @param string $name
-     * @return \Jifno\Message
+     * @return \Fluent\Email\Message
      */
     public function from($address, $name = null)
     {
@@ -93,11 +93,11 @@ class Message
      */
     public function send($transport = null)
     {
-        $transport = \Jifno::getDefault('transport', ucfirst($transport));
+        $transport = \Fluent::getDefault('transport', ucfirst($transport));
         
-        $class = '\\Jifno\\Transport\\' . $transport;
+        $class = '\\Fluent\\Transport\\' . $transport;
         if (!class_exists($class)) {
-            throw new Exception ("{$transport} is not a valid transport");
+            throw new \Fluent\Exception ("{$transport} is not a valid transport");
         }
         
         $client = new $class;
@@ -109,7 +109,7 @@ class Message
         if (isset($this->_sender['address']) && !empty($this->_sender['address'])) {
             return array('address' => $this->_sender['address'], 'name' => $this->_sender['name']);
         }
-        return \Jifno::getDefault('sender');
+        return \Fluent::getDefault('sender');
     }
     
     /**
@@ -124,7 +124,7 @@ class Message
             'content'     => $this->_content,
             'html'        => true,
             'attachments' => $this->_attachments,
-            //'profile'     => \Jifno::getDefault('profile', $this->_profile)        
+            //'profile'     => \Fluent::getDefault('profile', $this->_profile)        
         );
     }
 }

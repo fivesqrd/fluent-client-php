@@ -1,7 +1,7 @@
 <?php
-namespace Jifno\Storage;
+namespace Fluent\Storage;
 
-class Sqlite implements \Jifno\Storage
+class Sqlite implements \Fluent\Storage
 {
     /**
      * @var \PDO
@@ -15,7 +15,7 @@ class Sqlite implements \Jifno\Storage
     public static $path;
     
     /**
-     * @return Jifno\Storage\Db
+     * @return Fluent\Storage\Db
      */
     public static function getInstance($path = null)
     {
@@ -30,9 +30,9 @@ class Sqlite implements \Jifno\Storage
     {
         $path = $this->_getPath($path);
         if (!is_dir($path)) {
-            throw new \Exception('Failed trying to create temporary Jifno message store in: '. $path);
+            throw new \Exception('Failed trying to create temporary Fluent message store in: '. $path);
         }
-        $file = $path. '/Jifno-Queue.sqlite3';
+        $file = $path. '/Fluent-Queue.sqlite3';
         $exists = file_exists($file);
         
         $this->_adapter = new \PDO('sqlite:' . $file);
@@ -66,7 +66,7 @@ class Sqlite implements \Jifno\Storage
     
     public function isLocked($mypid)
     {
-        $lockfile = $this->_getPath($this->_path) . '/Jifno-Queue.lock';
+        $lockfile = $this->_getPath($this->_path) . '/Fluent-Queue.lock';
         if (file_exists($lockfile)) {
             $pid = (int) file_get_contents($lockfile);
         }
@@ -77,7 +77,7 @@ class Sqlite implements \Jifno\Storage
         }
     }
     
-    public function persist(\Jifno\Message $email)
+    public function persist(\Fluent\Message $email)
     {
         $properties = $email->toArray();
         $data = array(

@@ -1,5 +1,5 @@
 <?php
-namespace Jifno;
+namespace Fluent;
 
 class Exception extends \Exception
 {

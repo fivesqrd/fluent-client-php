@@ -1,9 +1,9 @@
 <?php
-namespace Jifno;
+namespace Fluent;
 
 interface Storage
 {
-    public function persist(\Jifno\Message $email);
+    public function persist(\Fluent\Message $email);
     
     public function delete($messageId);
     

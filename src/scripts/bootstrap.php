@@ -4,17 +4,17 @@ set_include_path(implode(PATH_SEPARATOR, array(
     realpath(dirname(__FILE__) . '/../library'),
     get_include_path(),
 )));
-require_once 'Jifno/Message.php';
-require_once 'Jifno/Storage/Sqlite.php';
-require_once 'Jifno/Transport/Standard.php';
-require_once 'Jifno.php';
+require_once 'Fluent/Message.php';
+require_once 'Fluent/Storage/Sqlite.php';
+require_once 'Fluent/Transport/Standard.php';
+require_once 'Fluent.php';
 
 
-Jifno::setDefaults(array(
+Fluent::setDefaults(array(
     'key'     => '9fe630283b5a62833b04023c20e43915',
     'from'    => 'christian@thinkopen.biz',
-    'name'    => 'Jifno E-mailer',
+    'name'    => 'Fluent E-mailer',
 ));
 
-Jifno\Storage\Sqlite::$path = dirname(__FILE__) . '/../temp';
-Jifno\Transport\Standard::$url = 'http://localhost/jifno-api/v1';
+Fluent\Storage\Sqlite::$path = dirname(__FILE__) . '/../temp';
+Fluent\Transport\Standard::$url = 'http://localhost/jifno-api/v1';

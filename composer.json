@@ -1,6 +1,6 @@
 {
-	"name": "click-science/jifno-sdk-php",
-	"description": "The Jifno PHP SDK",
+	"name": "click-science/fluent-library-php",
+	"description": "The Fluent PHP client library",
 	"require": {},
     	"autoload": {
         	"classmap": ["src/library"]
