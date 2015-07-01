@@ -7,6 +7,10 @@ set_include_path(implode(PATH_SEPARATOR, array(
 )));
 
 require_once 'Fluent.php';
+require_once 'Fluent/Content.php';
+require_once 'Fluent/Message.php';
+require_once 'Fluent/Transport.php';
+require_once 'Fluent/Transport/Remote.php';
 
 Fluent::$defaults = array(
     'key'      => '9fe630283b5a62833b04023c20e43915',
