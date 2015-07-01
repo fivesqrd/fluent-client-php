@@ -1,10 +1,14 @@
 <?php
 namespace Fluent;
 
-require_once 'Fluent/Transport/Remote.php';
-require_once 'Fluent/Transport/Local.php';
-require_once 'Fluent/Content.php';
-
+/**
+ *
+ * @author cjb
+ *
+ * @method \Fluent\Message setTitle(string $text)
+ * @method \Fluent\Message addParagraph(string $text)
+ * @method \Fluent\Message addCallout(string $href, string $text)
+ */
 class Message
 {
     /**
@@ -56,7 +60,7 @@ class Message
     {
         if (method_exists($this->_content, $name)) {
             $object = $this->_content;
-            $this->format('markup');
+            $this->setOption('format', 'markup');
         } else {
             throw new \Fluent\Exception('Invalid method ' . $name);
         }
@@ -75,7 +79,8 @@ class Message
             $transport = $this->_getDefault('transport');
         }
         
-        $class = '\\Fluent\\Transport\\' . $transport;
+        $class = '\\Fluent\\Transport\\' . ucfirst(strtolower($transport));
+        
         if (!class_exists($class)) {
             throw new \Fluent\Exception ("{$transport} is not a valid transport");
         }

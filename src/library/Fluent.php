@@ -1,17 +1,6 @@
 <?php
 
-require_once 'Fluent/Content.php';
-require_once 'Fluent/Message.php';
 
-/**
- * 
- * @author cjb
- *
- * @method \Fluent setTitle(string $text)
- * @method \Fluent addParagraph(string $text)
- * @method \Fluent addCallout(string $href, string $text)
- * @method \Fluent attach(string $name, string $contentType, string $stream)
- */
 class Fluent
 {
     public static $defaults = array(
