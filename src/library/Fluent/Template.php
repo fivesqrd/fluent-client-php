@@ -1,10 +1,10 @@
 <?php
-namespace Fluent\Email;
+namespace Fluent;
 
 interface Template
 {
     /**
-     * @return \Fluent\Email\Content
+     * @return \Fluent\Content
      */
     public function getContent();
 }

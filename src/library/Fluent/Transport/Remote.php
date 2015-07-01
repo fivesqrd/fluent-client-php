@@ -5,20 +5,26 @@ require_once 'Fluent/Transport.php';
 require_once 'Fluent/Exception.php';
 require_once 'Fluent.php';
 
-class Standard implements \Fluent\Transport
+class Remote implements \Fluent\Transport
 {
     protected $_curl;
     
-    protected $_debug;
-    
     protected $_key;
     
-    public static $url = 'https://jifno.clickapp.co.za/v2';
+    protected $_secret;
     
-    public function __construct($key = null)
+    public static $endpoint = 'https://fluent.clickapp.co.za/v3';
+    
+    public static $debug = false;
+    
+    public function __construct($key, $secret, $endpoint = null)
     {
         $this->_curl = curl_init();
-        $this->_key;
+        $this->_key = $key;
+        $this->_secret = $secret;
+        if ($endpoint !== null) {
+            self::$endpoint = $endpoint;
+        }
     }
     
     public function send(\Fluent\Message $message)
@@ -27,12 +33,13 @@ class Standard implements \Fluent\Transport
         $params = array(
             'sender'      => $properties['sender'],
             'subject'     => $properties['subject'],
-            'recipients'  => array($properties['recipient']),
+            'recipient'   => $properties['recipient'],
             'content'     => $properties['content'],
-            'attachments' => $properties['attachments'],
+            'attachment'  => $properties['attachments'],
+            'option'      => $properties['options'],
         );
         
-        $response = $this->_call('message', 'create', json_encode($params));
+        $response = $this->_call('message', 'create', $params, self::$debug);
         return $response['_id'];
     }
     
@@ -40,26 +47,16 @@ class Standard implements \Fluent\Transport
     {
         $this->_debug = $debug;
         
-        $profile = array(
-            'theme'     => \Fluent::getDefault('theme'),
-            'logo'      => \Fluent::getDefault('logo'),
-            'color'     => \Fluent::getDefault('color'),
-            'teaser'    => \Fluent::getDefault('teaser'),
-            'footer'    => \Fluent::getDefault('footer')
-        );
+        $payload = http_build_query($params);
         
-        $payload =  '{"key": "' . \Fluent::getDefault('key', $this->_key) . '", ';
-        $payload .= '"profile": ' . json_encode($profile) . ', '; 
-        $payload .= '"message": ' . $params . '}'; 
-        
-        $url = self::$url . '/' . $resource;
+        $url = self::$endpoint . '/' . $resource;
         
         curl_setopt($this->_curl, CURLOPT_URL, $url);
-        curl_setopt($this->_curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
         curl_setopt($this->_curl, CURLOPT_POSTFIELDS, $payload);
         curl_setopt($this->_curl, CURLOPT_VERBOSE, $debug);
         curl_setopt($this->_curl, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($this->_curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($this->_curl, CURLOPT_USERPWD, $this->_key . ':' . $this->_secret);
         
         switch ($method) {
             case 'create':
@@ -71,7 +68,7 @@ class Standard implements \Fluent\Transport
         }
         
         $start = microtime(true);
-        $this->_log('Call to ' . $url . ': ' . $params);
+        $this->_log('Call to ' . $url . ': ' . $payload);
         if ($debug) {
             $curl_buffer = fopen('php://memory', 'w+');
             curl_setopt($this->_curl, CURLOPT_STDERR, $curl_buffer);
@@ -97,7 +94,7 @@ class Standard implements \Fluent\Transport
             throw new \Fluent\Exception('We were unable to decode the JSON response from the Fluent API: ' . $response_body);
         }
         if(floor($info['http_code'] / 100) >= 4) {
-            throw new \Fluent\Exception("{$info['http_code']}, " . $result['error']);
+            throw new \Fluent\Exception("{$info['http_code']}, " . $result['message']);
         }
         return $result;
     }

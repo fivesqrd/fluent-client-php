@@ -1,0 +1,8 @@
+curl https://fluent.clickapp.co.za/v3/message \
+  -u 9fe630283b5a62833b04023c20e43915:test \
+  -F sender='christian@clickscience.co.za' \
+  -F recipient='christianjburger@gmail.com' \ 
+  -F subject='ACME' \
+  -F attachment[]='@/Users/cjb/Downloads/Waybill-T35-20150127151740.pdf' \
+  -F attachment[]='@/Users/cjb/Downloads/UpliftSlip-T40-20150515140846.pdf' \
+  -F content="%3Ccontent%3E%3Ctitle%3EMy+little+pony%3C%2Ftitle%3E%3Cparagraph%3EI+love+my+pony+very+much.%3C%2Fparagraph%3E%3C%2Fcontent%3E"

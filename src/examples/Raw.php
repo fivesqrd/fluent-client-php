@@ -1,0 +1,29 @@
+<?php
+
+// Ensure library/ is on include_path
+set_include_path(implode(PATH_SEPARATOR, array(
+    realpath(__DIR__ . '/../library'),
+    get_include_path(),
+)));
+
+require_once 'Fluent.php';
+
+Fluent::$defaults = array(
+    'key'      => '9fe630283b5a62833b04023c20e43915',
+    'secret'   => 'test',
+    'sender'   => array('name' => 'ACME', 'address' => 'christian@clickscience.co.za'),
+);
+
+Fluent\Transport\Remote::$endpoint = 'http://localhost/fluent-web-service/v3';
+Fluent\Transport\Remote::$debug = true;
+
+try {
+    $messageId = Fluent::message()
+        ->raw("<p>This is plain text</p> <p>With a twist</p>")
+        ->subject('Testing it raw')
+        ->to('christianjburger@gmail.com')
+        ->send('remote');
+    echo 'Sent message: ' . $messageId . "\n";
+} catch (Fluent\Exception $e) {
+    echo 'Error: ' . $e->getMessage() . "\n";
+}

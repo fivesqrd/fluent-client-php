@@ -1,5 +1,8 @@
 <?php
 
+require_once 'Fluent/Content.php';
+require_once 'Fluent/Message.php';
+
 /**
  * 
  * @author cjb
@@ -11,50 +14,30 @@
  */
 class Fluent
 {
-    /**
-     * Default options
-     */
     public static $defaults = array(
-        'key'             => null,
-        'sender'          => array('name' => null, 'address' => null),
-        'theme'           => 'clean',
-        'logo'            => null,
-        'color'           => null,
-        'teaser'          => null,
-        'footer'          => null,
-        'transport'       => 'Standard',
-        'storage'         => 'Sqlite',
+        'key'       => null,
+        'secret'    => null,
+        'sender'    => null,
+        'format'    => 'markup'
     );
     
-    public static function setDefaults($values)
-    {
-        foreach ($values as $key => $value) {
-            self::$defaults[$key] = $value;
-        }
-    }
-    
     /**
-     * @param string $theme
-     * @return \Fluent\Method\Email
+     * @param string $content
+     * @param array $defaults
+     * @return \Fluent\Message
      */
-    public static function email($template = null)
+    public static function message($template = null, $defaults = null)
     {
-        if ($template instanceof \Fluent\Email\Template) {
+        if ($template instanceof \Fluent\Template) {
             $content = $template->getContent();
         } else {
-            $content = new \Fluent\Email\Content(self::$defaults['theme']);
+            $content = new \Fluent\Content();
         }
         
-        return new self(new \Fluent\Email(), $content);
-    }
-    
-    public static function getDefault($key, $value = null)
-    {
-        if (!empty($value)) {
-            return $value;
+        if ($defaults === null) {
+            $defaults = self::$defaults;
         }
         
-        return self::$defaults[$key];
+        return new \Fluent\Message($content, $defaults);
     }
-
 }
