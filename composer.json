@@ -1,11 +1,11 @@
 {
-	"name": "click-science/fluent-library-php",
-	"description": "The Fluent PHP client library",
+	"name": "click-science/fluent",
+	"description": "The Fluent Messaging client library",
 	"require": {},
     	"autoload": {
         	"classmap": ["src/library"]
     	},
-    	"version": "1.0.0",
+    	"version": "3.0.0",
     	"license": ["Click Science License"],
     	"authors": [
         	{
