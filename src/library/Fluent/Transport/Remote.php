@@ -1,10 +1,6 @@
 <?php
 namespace Fluent\Transport;
 
-require_once 'Fluent/Transport.php';
-require_once 'Fluent/Exception.php';
-require_once 'Fluent.php';
-
 class Remote implements \Fluent\Transport
 {
     protected $_curl;
