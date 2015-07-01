@@ -7,7 +7,8 @@ class Fluent
         'key'       => null,
         'secret'    => null,
         'sender'    => null,
-        'format'    => 'markup'
+        'format'    => 'markup',
+        'transport' => 'remote'
     );
     
     /**
