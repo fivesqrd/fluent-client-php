@@ -26,7 +26,7 @@ try {
         ->setTitle('My little pony')
         ->addParagraph('I love my pony very much.')
         ->addCallout('http://www.mypony.com', 'Like my pony')
-        ->teaser('This is a teaser')
+        ->setTeaser('This is a teaser')
         ->subject('Testing it')
         ->to('christianjburger@gmail.com')
         ->send('remote');

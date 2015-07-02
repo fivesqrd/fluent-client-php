@@ -5,6 +5,10 @@ class Content
 {
     protected $_title;
     
+    protected $_teaser;
+    
+    protected $_raw = false;
+    
     /**
      * @param string $text
      * @return \Fluent\Content
@@ -36,12 +40,39 @@ class Content
         return $this;
     }
     
+    public function setRawContent($value)
+    {
+        $this->_raw = true;
+        $this->_content = $value;
+    }
+    
     /**
      * @return string
      */
     public function getMarkup()
     {
+        if ($this->_raw === true) {
+            return $this->_content;
+        }
+        
         return '<content>' . $this->_title . $this->_content . '</content>';
+    }
+    
+    public function getFormat()
+    {
+        return ($this->_raw === true) ? 'raw' : 'markup';
+    }
+    
+
+    public function setTeaser($text)
+    {
+        $this->_teaser = $text;
+        return $this;
+    }
+    
+    public function getTeaser()
+    {
+        return $this->_teaser;
     }
     
     public function __toString()
