@@ -8,6 +8,8 @@ namespace Fluent;
  * @method \Fluent\Message setTitle(string $text)
  * @method \Fluent\Message addParagraph(string $text)
  * @method \Fluent\Message addCallout(string $href, string $text)
+ * @method \Fluent\Message setRawContent(string $value)
+ * @method \Fluent\Message setTeaser(string $value)
  */
 class Message
 {
@@ -21,8 +23,6 @@ class Message
     protected $_recipient = array('address' => null, 'name' => null);
     
     protected $_subject;
-    
-    protected $_raw;
     
     protected $_options = array();
     
@@ -162,27 +162,8 @@ class Message
     }
     
     /**
-     * 
-     * @param string $text
-     * @return \Fluent\Message
+     * @return array
      */
-    public function teaser($text)
-    {
-        $this->setOption('teaser', $text);
-        return $this;
-    }
-    
-    /**
-     * @param string $value raw content
-     * @return \Fluent\Message
-     */
-    public function raw($value)
-    {
-        $this->_raw = $value;
-        $this->setOption('format', 'raw');
-        return $this;
-    }
-    
     public function getSender()
     {
         if (isset($this->_sender['address']) && !empty($this->_sender['address'])) {
@@ -191,13 +172,22 @@ class Message
         return $this->_getDefault('sender');
     }
     
+    /**
+     * @return \Fluent\Content
+     */
     public function getContent()
     {
-        if ($this->_raw !== null) {
-            return $this->_raw;
-        }
+        return $this->_content;
+    }
+    
+    public function getOptions()
+    {
+        $content = array(
+            'format' => $this->_content->getFormat(),
+            'teaser' => $this->_content->getTeaser()
+        );
         
-        return $this->_content->getMarkup();
+        return array_merge($this->_options, $content);
     }
 
     /**
@@ -209,9 +199,9 @@ class Message
             'sender'      => $this->getSender(),
             'subject'     => $this->_subject,
             'recipient'   => $this->_recipient,
-            'content'     => $this->getContent(),
+            'content'     => $this->_content->getMarkup(),
             'attachments' => $this->_attachments,
-            'options'     => $this->_options,
+            'options'     => $this->getOptions(),
         );
     }
 }

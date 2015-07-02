@@ -23,7 +23,7 @@ Fluent\Transport\Remote::$debug = true;
 
 try {
     $messageId = Fluent::message()
-        ->raw("<p>This is plain text</p> <p>With a twist</p>")
+        ->setRawContent("<p>This is plain text</p> <p>With a twist</p>")
         ->subject('Testing it raw')
         ->to('christianjburger@gmail.com')
         ->send('remote');
