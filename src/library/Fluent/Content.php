@@ -7,6 +7,8 @@ class Content
     
     protected $_teaser;
     
+    protected $_content;
+    
     protected $_raw = false;
     
     /**
