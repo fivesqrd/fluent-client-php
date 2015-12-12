@@ -6,6 +6,8 @@ class Content
     protected $_theme = 'minimal';
     
     protected $_title;
+
+    protected $_content;
     
     /**
      * @param string $layout
