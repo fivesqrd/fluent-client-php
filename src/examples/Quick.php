@@ -28,6 +28,7 @@ try {
         ->addCallout('http://www.mypony.com', 'Like my pony')
         ->setTeaser('This is a teaser')
         ->subject('Testing it')
+        ->header('Reply-To', 'christianjburger@me.com')
         ->to('christianjburger@gmail.com')
         ->send('remote');
     echo 'Sent message: ' . $messageId . "\n";

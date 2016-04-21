@@ -31,6 +31,7 @@ class Remote implements \Fluent\Transport
             'subject'     => $properties['subject'],
             'recipient'   => $properties['recipient'],
             'content'     => $properties['content'],
+            'header'      => $properties['headers'],
             'attachment'  => $properties['attachments'],
             'option'      => $properties['options'],
         );

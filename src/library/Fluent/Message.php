@@ -25,6 +25,8 @@ class Message
     protected $_subject;
     
     protected $_options = array();
+
+    protected $_headers = array();
     
     protected $_attachments = array();
     
@@ -160,6 +162,30 @@ class Message
         $this->_options[$name] = $value;
         return $this;
     }
+
+    /**
+     * 
+     * @param string $name
+     * @param string $value
+     * @return \Fluent\Message
+     */
+    public function header($name, $value)
+    {
+        $this->_headers[$name] = $value;
+        return $this;
+    }
+
+    /**
+     * 
+     * @param string $name
+     * @param string $value
+     * @return \Fluent\Message
+     */
+    public function headers($values)
+    {
+        $this->_headers = array_merge($this->_headers, $values);
+        return $this;
+    }
     
     /**
      * @return array
@@ -200,6 +226,7 @@ class Message
             'subject'     => $this->_subject,
             'recipient'   => $this->_recipient,
             'content'     => $this->_content->getMarkup(),
+            'headers'     => $this->_headers,
             'attachments' => $this->_attachments,
             'options'     => $this->getOptions(),
         );
