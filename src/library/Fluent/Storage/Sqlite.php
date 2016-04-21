@@ -60,7 +60,7 @@ class Sqlite implements \Fluent\Storage
 
     protected function _createSchema(\PDO $db)
     {
-        $db->query('CREATE TABLE messages (id integer primary key autoincrement, sender varchar(255), recipient varchar(255), subject varchar(255), content blob, status varchar(255), options varchar(512) created_at datetime, transmitted_at datetime, reference varchar(255), error varchar(255))');
+        $db->query('CREATE TABLE messages (id integer primary key autoincrement, sender varchar(255), recipient varchar(255), subject varchar(255), headers varchar(512), content blob, status varchar(255), options varchar(512) created_at datetime, transmitted_at datetime, reference varchar(255), error varchar(255))');
         $db->query('CREATE TABLE attachments (id integer primary key autoincrement, message_id int(11), type varchar(255), name varchar(255), content blob)');
     }
     
@@ -86,10 +86,11 @@ class Sqlite implements \Fluent\Storage
             ':subject'   => $properties['subject'],
             ':content'   => $properties['content'],
             ':options'   => $properties['options'],
+            ':headers'   => $properties['headers'],
             ':status'    => 'queued',
             ':created_at'=> date("Y-m-d H:i:s"),
         );
-        $stmt = $this->_adapter->prepare('INSERT INTO messages (sender,recipient,subject,content,options,status,created_at) values (:sender,:recipient,:subject,:content,:options,:status,:created_at)');
+        $stmt = $this->_adapter->prepare('INSERT INTO messages (sender,recipient,subject,content,headers,options,status,created_at) values (:sender,:recipient,:subject,:content,:headers,:options,:status,:created_at)');
         $stmt->execute($data);
         $id = $this->_adapter->lastInsertId();
         
