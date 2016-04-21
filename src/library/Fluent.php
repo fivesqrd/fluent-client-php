@@ -16,7 +16,7 @@ class Fluent
      * @param array $defaults
      * @return \Fluent\Message
      */
-    public static function message($template = null, $defaults = null)
+    public static function message($template = null, array $defaults = array())
     {
         if ($template instanceof \Fluent\Template) {
             $content = $template->getContent();
@@ -24,10 +24,6 @@ class Fluent
             $content = new \Fluent\Content();
         }
         
-        if ($defaults === null) {
-            $defaults = self::$defaults;
-        }
-        
-        return new \Fluent\Message($content, $defaults);
+        return new \Fluent\Message($content, array_merge(self::$defaults, $defaults));
     }
 }
