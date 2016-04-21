@@ -12,16 +12,17 @@ if ($storage->isLocked(getmypid())) {
 foreach ($storage->getQueue() as $message) {
     try {
         echo date("Y-m-d H:i:s") . " Sending '{$message['subject']}' to {$message['recipient']}\n";
-        $object = (new Fluent\Message($message['profile']))
+        $object = Fluent::message()
             ->from(json_decode($message['sender'], true))
             ->to(json_decode($message['recipient'], true))
             ->subject($message['subject'])
+            ->headers($message['headers'])
             ->content($message['content']);
         
         foreach ($storage->getAttachments($message['id']) as $attachment) {
             $object->attach($attachment['name'], $attachment['type'], $attachment['content']);
         }
-        $response = $object->send('standard');
+        $response = $object->send('remote');
         
         if ($response) {
             $storage->moveToSent($message['id'], $response);
