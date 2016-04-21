@@ -60,7 +60,7 @@ class Sqlite implements \Fluent\Storage
 
     protected function _createSchema(\PDO $db)
     {
-        $db->query('CREATE TABLE messages (id integer primary key autoincrement, sender varchar(255), recipient varchar(255), subject varchar(255), headers varchar(512), content blob, status varchar(255), options varchar(512) created_at datetime, transmitted_at datetime, reference varchar(255), error varchar(255))');
+        $db->query('CREATE TABLE messages (id integer primary key autoincrement, sender varchar(255), recipient varchar(255), subject varchar(255), headers varchar(512), content blob, status varchar(255), options varchar(512), created_at datetime, transmitted_at datetime, reference varchar(255), error varchar(255))');
         $db->query('CREATE TABLE attachments (id integer primary key autoincrement, message_id int(11), type varchar(255), name varchar(255), content blob)');
     }
     
