@@ -38,6 +38,8 @@ class Message
             $this->_content = $content->getContent();
         } elseif ($content instanceof Fluent\Content) {
             $this->_content = $content;
+        } elseif ($content === null) {
+            $this->_content = new Fluent\Content();
         } else {
             $this->_content = new Fluent\Content();
             $this->_content->setRawContent($content);

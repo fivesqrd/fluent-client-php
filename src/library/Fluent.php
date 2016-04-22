@@ -16,7 +16,7 @@ class Fluent
      * @param array $defaults
      * @return \Fluent\Message
      */
-    public static function message($content, array $defaults = array())
+    public static function message($content = null, array $defaults = array())
     {
         return new \Fluent\Message($content, array_merge(self::$defaults, $defaults));
     }
