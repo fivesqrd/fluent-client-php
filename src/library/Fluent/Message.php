@@ -34,14 +34,14 @@ class Message
     
     public function __construct($content, $defaults = array())
     {
-        if ($content instanceof Fluent\Template) {
+        if ($content instanceof Template) {
             $this->_content = $content->getContent();
-        } elseif ($content instanceof Fluent\Content) {
+        } elseif ($content instanceof Content) {
             $this->_content = $content;
         } elseif ($content === null) {
-            $this->_content = new Fluent\Content();
+            $this->_content = new Content();
         } else {
-            $this->_content = new Fluent\Content();
+            $this->_content = new Content();
             $this->_content->setRawContent($content);
         }
 
