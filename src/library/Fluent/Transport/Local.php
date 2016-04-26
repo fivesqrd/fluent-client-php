@@ -10,7 +10,7 @@ class Local implements \Fluent\Transport
     public function __construct($defaults)
     {
         if (array_key_exists('storage', $defaults)) {
-            $class = 'Fluent\\Storage\\' . ucfirst($storage);
+            $class = 'Fluent\\Storage\\' . ucfirst($defaults['storage']);
         } else {   
             $class = 'Fluent\\Storage\\Sqlite';
         }
