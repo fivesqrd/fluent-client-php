@@ -42,7 +42,7 @@ class Message
             $this->_content = $content;
         } elseif ($content === null) {
             $this->_content = new Content\Markup();
-        } elseif (is_string($content) && substr($content, 0, 9, $content) == '<content>') {
+        } elseif (is_string($content) && substr($content, 0, 9) == '<content>') {
             $this->_content = new Content\Markup($content);
         } else {
             $this->_content = new Content\Raw($content);
