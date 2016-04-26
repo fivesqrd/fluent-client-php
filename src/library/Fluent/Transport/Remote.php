@@ -13,11 +13,11 @@ class Remote implements \Fluent\Transport
     
     public static $debug = false;
     
-    public function __construct($key, $secret, $endpoint = null)
+    public function __construct($defaults, $endpoint = null)
     {
         $this->_curl = curl_init();
-        $this->_key = $key;
-        $this->_secret = $secret;
+        $this->_key = $defaults['key';
+        $this->_secret = $defaults['secret'];
         if ($endpoint !== null) {
             self::$endpoint = $endpoint;
         }

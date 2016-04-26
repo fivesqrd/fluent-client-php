@@ -7,9 +7,13 @@ class Local implements \Fluent\Transport
     
     protected $_storage;
     
-    public function __construct($storage = 'Sqlite')
+    public function __construct($defaults)
     {
-        $class = 'Fluent\\Storage\\' . $storage;
+        if (array_key_exists('storage', $defaults) {
+            $class = 'Fluent\\Storage\\' . ucfirst($storage);
+        } else {   
+            $class = 'Fluent\\Storage\\Sqlite';
+        }
         $this->_storage = $class::getInstance();
     }
     

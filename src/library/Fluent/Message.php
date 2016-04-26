@@ -97,7 +97,7 @@ class Message
             throw new \Fluent\Exception ("{$transport} is not a valid transport");
         }
         
-        $client = new $class($this->_getDefault('key'), $this->_getDefault('secret'));
+        $client = new $class($this->_defaults);
         return $client->send($this);
     }
     
@@ -226,6 +226,15 @@ class Message
         return array_merge($this->_options, $content);
     }
 
+    public function getHeaders()
+    {
+        if (!array_key_exists('headers', $this->_defaults || !is_array($this->_defaults['headers']) {
+            return $this->_headers;
+        }
+
+        return array_merge($this->_defaults['headers'], $this->_headers);
+    }
+
     /**
      * @return array
      */
@@ -236,7 +245,7 @@ class Message
             'subject'     => $this->_subject,
             'recipient'   => $this->_recipient,
             'content'     => $this->_content->getMarkup(),
-            'headers'     => $this->_headers,
+            'headers'     => $this->getHeaders(),
             'attachments' => $this->_attachments,
             'options'     => $this->getOptions(),
         );

@@ -7,8 +7,10 @@ class Fluent
         'key'       => null,
         'secret'    => null,
         'sender'    => null,
+        'headers'   => null,
         'format'    => 'markup',
-        'transport' => 'remote'
+        'transport' => 'remote',
+        'storage'   => 'sqlite'
     );
     
     /**
