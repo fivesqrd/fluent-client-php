@@ -7,11 +7,11 @@ class Content
 {
     public static function markup()
     {
-        return Content\Markup();
+        return new Content\Markup();
     }
 
     public static function raw()
     {
-        return Content\Raw();
+        return new Content\Raw();
     }
 }
