@@ -83,10 +83,10 @@ class Sqlite implements \Fluent\Storage
         $data = array(
             ':sender'    => json_encode($properties['sender']),
             ':recipient' => json_encode($properties['recipient']),
+            ':headers'   => json_encode($properties['headers']),
             ':subject'   => $properties['subject'],
             ':content'   => $properties['content'],
             ':options'   => $properties['options'],
-            ':headers'   => $properties['headers'],
             ':status'    => 'queued',
             ':created_at'=> date("Y-m-d H:i:s"),
         );

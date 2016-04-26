@@ -15,8 +15,8 @@ foreach ($storage->getQueue() as $message) {
         $response = Fluent::message($message['content'])
             ->from(json_decode($message['sender'], true))
             ->to(json_decode($message['recipient'], true))
+            ->headers(json_decode($message['headers'], true))
             ->subject($message['subject'])
-            ->headers($message['headers'])
             ->attachments($storage->getAttachments($message['id']))
             ->send('remote');
         
