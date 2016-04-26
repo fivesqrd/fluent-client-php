@@ -242,7 +242,7 @@ class Message
 
     public function getHeaders()
     {
-        if (!array_key_exists('headers', $this->_defaults || !is_array($this->_defaults['headers'])) {
+        if (!array_key_exists('headers', $this->_defaults) || !is_array($this->_defaults['headers'])) {
             return $this->_headers;
         }
 
