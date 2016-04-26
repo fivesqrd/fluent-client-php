@@ -9,8 +9,6 @@ class Content
     
     protected $_content;
     
-    protected $_raw = false;
-    
     /**
      * @param string $text
      * @return \Fluent\Content
@@ -44,7 +42,6 @@ class Content
     
     public function setRawContent($value)
     {
-        $this->_raw = true;
         $this->_content = $value;
     }
     
@@ -53,7 +50,7 @@ class Content
      */
     public function getMarkup()
     {
-        if ($this->_raw === true) {
+        if ($this->getFormat() == 'raw') {
             return $this->_content;
         }
         
@@ -62,7 +59,7 @@ class Content
     
     public function getFormat()
     {
-        return ($this->_raw === true) ? 'raw' : 'markup';
+        return (substr($this->_content, 0 , 9) == '<content>') ? 'markup' : 'raw';
     }
     
 
