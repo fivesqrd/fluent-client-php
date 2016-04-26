@@ -42,6 +42,8 @@ class Message
             $this->_content = $content;
         } elseif ($content === null) {
             $this->_content = new Content\Markup();
+        } elseif (is_string($content) && substr($content, 0, 9, $content) == '<content>') {
+            $this->_content = new Content\Markup($content);
         } else {
             $this->_content = new Content\Raw($content);
         }
@@ -73,7 +75,6 @@ class Message
     {
         if (method_exists($this->_content, $name)) {
             $object = $this->_content;
-            $this->setOption('format', 'markup');
         } else {
             throw new \Fluent\Exception('Invalid method ' . $name);
         }
@@ -182,9 +183,15 @@ class Message
      * @param string $value
      * @return \Fluent\Message
      */
-    public function setOption($name, $value)
+    public function option($name, $value)
     {
         $this->_options[$name] = $value;
+        return $this;
+    }
+
+    public function options($values)
+    {
+        $this->_options = array_merge($this->_options, $values);
         return $this;
     }
 

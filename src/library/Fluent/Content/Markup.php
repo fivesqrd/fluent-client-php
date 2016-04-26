@@ -8,6 +8,11 @@ class Markup
     protected $_teaser;
     
     protected $_content;
+
+    public function __construct($content = null)
+    {
+        $this->_content = $content; //todo: check and strip content and title tags
+    }
     
     /**
      * @param string $text
@@ -44,12 +49,16 @@ class Markup
     {
         return 'markup';
     }
-    
+
     /**
      * @return string
      */
     public function toString()
     {
+        if (substr($this->_content, 0, 9) == '<content>') {
+            return $this->_content;
+        }
+
         return '<content>' . $this->_title . $this->_content . '</content>';
     }
 
