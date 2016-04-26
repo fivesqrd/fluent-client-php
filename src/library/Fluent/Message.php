@@ -130,7 +130,7 @@ class Message
     /**
      * @param string $name
      * @param string $contentType
-     * $param string $content
+     * @param string $content
      * @return \Fluent\Message
      */
     public function attach($name, $type, $content)
@@ -140,6 +140,20 @@ class Message
             'type'      => $type,
             'content'   => base64_encode($content)
         ));
+
+        return $this;
+    }
+
+    /**
+     * @param array $values
+     * @return \Fluent\Message
+     */
+    public function attachments(array $values)
+    {
+        foreach ($values as $attachment) {
+            $this->attach($attachment['name'], $attachment['type'], $attachment['content']); 
+        }
+    
         return $this;
     }
     
