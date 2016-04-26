@@ -201,11 +201,10 @@ class Message
 
     /**
      * 
-     * @param string $name
-     * @param string $value
+     * @param array $values
      * @return \Fluent\Message
      */
-    public function headers($values)
+    public function headers(array $values)
     {
         $this->_headers = array_merge($this->_headers, $values);
         return $this;
