@@ -36,13 +36,14 @@ class Message
     {
         if ($content instanceof Template) {
             $this->_content = $content->getContent();
-        } elseif ($content instanceof Content) {
+        } elseif ($content instanceof Content\Markup) {
+            $this->_content = $content;
+        } elseif ($content instanceof Content\Raw) {
             $this->_content = $content;
         } elseif ($content === null) {
-            $this->_content = new Content();
+            $this->_content = new Content\Markup();
         } else {
-            $this->_content = new Content();
-            $this->_content->setRawContent($content);
+            $this->_content = new Content\Raw($content);
         }
 
         $this->_defaults = $defaults;
@@ -59,7 +60,7 @@ class Message
     
     public function __toString()
     {
-        return $this->_content->getMarkup();
+        return $this->_content->toString();
     }
     
     /**
@@ -257,7 +258,7 @@ class Message
             'sender'      => $this->getSender(),
             'subject'     => $this->_subject,
             'recipient'   => $this->_recipient,
-            'content'     => $this->_content->getMarkup(),
+            'content'     => $this->_content->toString(),
             'headers'     => $this->getHeaders(),
             'attachments' => $this->_attachments,
             'options'     => $this->getOptions(),

@@ -1,81 +1,17 @@
 <?php
 namespace Fluent;
 
+use Fluent\Content as Content;
+
 class Content
 {
-    protected $_title;
-    
-    protected $_teaser;
-    
-    protected $_content;
-    
-    /**
-     * @param string $text
-     * @return \Fluent\Content
-     */
-    public function setTitle($text)
+    public static function markup()
     {
-        $this->_title = '<title>' . $text . '</title>';
-        return $this;
+        return Content\Markup();
     }
-    
-    /**
-     * @param string $text
-     * @return \Fluent\Content
-     */
-    public function addParagraph($text)
-    {
-        $this->_content .= '<paragraph>' . $text .  '</paragraph>';
-        return $this;
-    }
-    
-    /**
-     * @param string $href
-     * @param string $text
-     * @return \Fluent\Content
-     */
-    public function addCallout($href, $text)
-    {
-        $this->_content .= '<callout href="' . $href . '">' . $text . '</callout>';
-        return $this;
-    }
-    
-    public function setRawContent($value)
-    {
-        $this->_content = $value;
-    }
-    
-    /**
-     * @return string
-     */
-    public function getMarkup()
-    {
-        if ($this->getFormat() == 'raw') {
-            return $this->_content;
-        }
-        
-        return '<content>' . $this->_title . $this->_content . '</content>';
-    }
-    
-    public function getFormat()
-    {
-        return (substr($this->_content, 0 , 9) == '<content>') ? 'markup' : 'raw';
-    }
-    
 
-    public function setTeaser($text)
+    public static function raw()
     {
-        $this->_teaser = $text;
-        return $this;
-    }
-    
-    public function getTeaser()
-    {
-        return $this->_teaser;
-    }
-    
-    public function __toString()
-    {
-        return $this->getMarkup();
+        return Content\Raw();
     }
 }
