@@ -84,9 +84,9 @@ class Sqlite implements \Fluent\Storage
             ':sender'    => json_encode($properties['sender']),
             ':recipient' => json_encode($properties['recipient']),
             ':headers'   => json_encode($properties['headers']),
+            ':options'   => json_encode($properties['options']),
             ':subject'   => $properties['subject'],
             ':content'   => $properties['content'],
-            ':options'   => $properties['options'],
             ':status'    => 'queued',
             ':created_at'=> date("Y-m-d H:i:s"),
         );
