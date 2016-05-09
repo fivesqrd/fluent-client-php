@@ -5,9 +5,9 @@ use Fluent\Content as Content;
 
 class Content
 {
-    public static function markup()
+    public static function markup($content = null)
     {
-        return new Content\Markup();
+        return new Content\Markup($content);
     }
 
     public static function raw()

@@ -11,7 +11,14 @@ class Markup
 
     public function __construct($content = null)
     {
-        $this->_content = $content; //todo: check and strip content and title tags
+        $xml = new \DOMDocument();
+        if ($content) {
+            $xml->loadXML($content);
+        } else {
+            $xml->appendChild(new \DOMElement('content'));
+        }
+
+        $this->_content = $xml->childNodes->item(0);
     }
     
     /**
@@ -20,7 +27,7 @@ class Markup
      */
     public function setTitle($text)
     {
-        $this->_title = '<title><![CDATA[' . $text . ']]></title>';
+        $this->_content->appendChild(new \DOMElement('title', htmlentities($text)));
         return $this;
     }
     
@@ -30,8 +37,15 @@ class Markup
      */
     public function addParagraph($text)
     {
-        $this->_content .= '<paragraph><![CDATA[' . htmlentities($text) .  ']]></paragraph>';
+        $paragraph = new \DOMElement('paragraph');
+        $this->_content->appendChild($paragraph);
+        $paragraph->appendChild($this->_getCData($text));
         return $this;
+    }
+
+    protected function _getCData($text)
+    {
+        return $this->_content->ownerDocument->createCDATASection($text);
     }
     
     /**
@@ -41,7 +55,9 @@ class Markup
      */
     public function addCallout($href, $text)
     {
-        $this->_content .= '<callout href="' . $href . '"><![CDATA[' . htmlentities($text) . ']]></callout>';
+        $callout = new \DOMElement('callout', htmlentities($text));
+        $this->_content->appendChild($callout);
+        $callout->setAttribute('href', $href);
         return $this;
     }
 
@@ -55,11 +71,8 @@ class Markup
      */
     public function toString()
     {
-        if (substr($this->_content, 0, 9) == '<content>') {
-            return $this->_content;
-        }
-
-        return '<content>' . $this->_title . $this->_content . '</content>';
+        $doc = $this->_content->ownerDocument;
+        return $doc->saveXml();
     }
 
     public function setTeaser($text)
@@ -75,6 +88,6 @@ class Markup
     
     public function __toString()
     {
-        return $this->getString();
+        return $this->toString();
     }
 }
