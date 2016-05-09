@@ -20,7 +20,7 @@ class Markup
      */
     public function setTitle($text)
     {
-        $this->_title = '<title>' . $text . '</title>';
+        $this->_title = '<title><![CDATA[' . $text . ']]></title>';
         return $this;
     }
     
@@ -30,7 +30,7 @@ class Markup
      */
     public function addParagraph($text)
     {
-        $this->_content .= '<paragraph>' . $text .  '</paragraph>';
+        $this->_content .= '<paragraph><![CDATA[' . htmlentities($text) .  ']]></paragraph>';
         return $this;
     }
     
@@ -41,7 +41,7 @@ class Markup
      */
     public function addCallout($href, $text)
     {
-        $this->_content .= '<callout href="' . $href . '">' . $text . '</callout>';
+        $this->_content .= '<callout href="' . $href . '"><![CDATA[' . htmlentities($text) . ']]></callout>';
         return $this;
     }
 
@@ -56,10 +56,10 @@ class Markup
     public function toString()
     {
         if (substr($this->_content, 0, 9) == '<content>') {
-            return htmlentities($this->_content);
+            return $this->_content;
         }
 
-        return '<content>' . htmlentities($this->_title . $this->_content) . '</content>';
+        return '<content>' . $this->_title . $this->_content . '</content>';
     }
 
     public function setTeaser($text)
