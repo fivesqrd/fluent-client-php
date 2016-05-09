@@ -76,7 +76,7 @@ class Message
         if (method_exists($this->_content, $name)) {
             $object = $this->_content;
         } else {
-            throw new \Fluent\Exception('Invalid method ' . $name);
+            throw new \Fluent\Exception('Invalid method ' . $name . ' for ' . get_class($this->_content));
         }
     
         call_user_func_array(array($object, $name), $arguments);

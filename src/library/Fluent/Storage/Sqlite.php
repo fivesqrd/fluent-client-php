@@ -137,6 +137,16 @@ class Sqlite implements \Fluent\Storage
             ->prepare('UPDATE messages SET status = :status, transmitted_at = :time, error = :error WHERE id = :id');
         $stmt->execute($data);
     }
+
+    public function getMessage($id)
+    {
+        $stmt = $this->_adapter
+            ->prepare('SELECT * FROM messages WHERE id = :id');
+
+        $stmt->execute(array(':id' => $id));
+
+        return $stmt->fetch();
+    }
     
     public function getQueue()
     {
