@@ -56,10 +56,10 @@ class Markup
     public function toString()
     {
         if (substr($this->_content, 0, 9) == '<content>') {
-            return $this->_content;
+            return htmlentities($this->_content);
         }
 
-        return '<content>' . $this->_title . $this->_content . '</content>';
+        return '<content>' . htmlentities($this->_title . $this->_content) . '</content>';
     }
 
     public function setTeaser($text)
