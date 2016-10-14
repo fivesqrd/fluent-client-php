@@ -9,6 +9,7 @@ set_include_path(implode(PATH_SEPARATOR, array(
 require_once 'Fluent.php';
 require_once 'Fluent/Api.php';
 require_once 'Fluent/Content.php';
+require_once 'Fluent/Content/Markup.php';
 require_once 'Fluent/Message.php';
 require_once 'Fluent/Transport.php';
 require_once 'Fluent/Transport/Remote.php';

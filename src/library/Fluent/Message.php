@@ -92,14 +92,20 @@ class Message
         if ($transport === null) {
             $transport = $this->_getDefault('transport');
         }
-        
-        $class = '\\Fluent\\Transport\\' . ucfirst(strtolower($transport));
-        
-        if (!class_exists($class)) {
-            throw new \Fluent\Exception ("{$transport} is not a valid transport");
+
+        switch (strtolower($transport)) {
+            case 'local':
+                $client = new Transport\Local();
+                break;
+            case 'remote':
+                $client = new Transport\Remote(
+                    new Api($this->_getDefault('key'), $this->_getDefault('secret'))
+                );
+                break;
+            default:
+                throw new Exception('No valid transport method specified');
         }
         
-        $client = new $class($this->_defaults);
         return $client->send($this);
     }
     
