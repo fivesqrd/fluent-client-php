@@ -1,3 +1,4 @@
+
 <?php
 
 // Ensure library/ is on include_path
@@ -8,8 +9,10 @@ set_include_path(implode(PATH_SEPARATOR, array(
 
 require_once 'Fluent.php';
 require_once 'Fluent/Api.php';
+require_once 'Fluent/Event.php';
 require_once 'Fluent/Content.php';
 require_once 'Fluent/Message.php';
+require_once 'Fluent/Exception.php';
 require_once 'Fluent/Transport.php';
 require_once 'Fluent/Transport/Remote.php';
 
@@ -19,21 +22,16 @@ Fluent::$defaults = array(
     'sender'   => array('name' => 'ACME', 'address' => 'christian@clickscience.co.za'),
 );
 
-Fluent\Api::$endpoint = 'http://localhost/fluent-web-service/v3';
-//Fluent\Api::$endpoint = 'https://fluent.clickapp.co.za/v3';
+//Fluent\Api::$endpoint = 'http://localhost/fluent-web-service/v3';
+Fluent\Api::$endpoint = 'https://fluent.clickapp.co.za/v3';
 Fluent\Api::$debug = true;
 
 try {
-    $messageId = Fluent::message()
-        ->setTitle('My little pony')
-        ->addParagraph('I love my pony very much.')
-        ->addCallout('http://www.mypony.com', 'Like my pony')
-        ->setTeaser('This is a teaser')
-        ->subject('Testing it')
-        ->header('Reply-To', 'christianjburger@me.com')
-        ->to('christianjburger@gmail.com')
-        ->send('remote');
-    echo 'Sent message: ' . $messageId . "\n";
+    $response = Fluent::event()
+        //->from('support@photofrog.co.za')
+        ->type('send')
+        ->fetchAll();
+    print_r($response);
 } catch (Fluent\Exception $e) {
     echo 'Error: ' . $e->getMessage() . "\n";
 }

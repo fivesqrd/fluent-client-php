@@ -30,4 +30,19 @@ class Fluent
         
         return new \Fluent\Message($content, $defaults);
     }
+
+    /**
+     * @param array $defaults
+     * @return \Fluent\Message
+     */
+    public static function event($defaults = null)
+    {
+        if ($defaults === null) {
+            $defaults = self::$defaults;
+        }
+
+        return new \Fluent\Event(
+            new Fluent\Api($defaults['key'], $defaults['secret'])
+        );
+    }
 }
