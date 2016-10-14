@@ -1,2 +1,2 @@
-Jifno-Client
+Fluent Client Library for PHP
 ============
