@@ -3,41 +3,32 @@ namespace Fluent;
 
 class Event
 {
-    protected $_api;
+    protected $_defaults = array();
 
-    protected $_params = array();
-
-    public function __construct($api)
+    public function __construct($defaults)
     {
-        $this->_api = $api;
+        $this->_defaults = $defaults;
     }
 
-    public function from($value)
+    /**
+     * @param int $id
+     * @return \Fluent\Event\Get
+     */
+    public function get($id)
     {
-        $this->_params['recipient'] = $value;
-        return $this;
-    }
-
-    public function to($value)
-    {
-        $this->_params['sender'] = $value;
-        return $this;
+        return new Event\Get(
+            new \Fluent\Api($this->_defaults['key'], $this->_defaults['secret']),
+            $id
+        );
     } 
 
-    public function since($value)
+    /**
+     * @return \Fluent\Event\Find
+     */
+    public function find()
     {
-        $this->_params['since'] = $value;
-        return $this;
-    }
-
-    public function type($value)
-    {
-        $this->_params['type'] = $value;
-        return $this;
-    }
-
-    public function fetchAll()
-    {
-        return $this->_api->call('event','get', $this->_params);
-    }
+        return new Event\Find(
+            new \Fluent\Api($this->_defaults['key'], $this->_defaults['secret'])
+        );
+    } 
 }

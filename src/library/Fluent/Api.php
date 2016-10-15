@@ -40,10 +40,16 @@ class Api
                 curl_setopt($this->_curl, CURLOPT_POST, true);
                 break;
             case 'get':
+                $url .= '/' . $params['id'];
+                break;
+            case 'index':
                 $url .= ($payload) ? '?' . $payload : null;
                 break;
             default:
-                throw new \Fluent\Exception('Invalid method: ' . $method);
+                if (!array_key_exists('id', $params)) {
+                    throw new Exception('id missing from REST RPC call');
+                }
+                $url .= '/' . $params['id'] . '/' . $method;
                 break;
         }
 
@@ -72,14 +78,14 @@ class Api
             throw new \Fluent\Exception("API call to " . $url . " failed: " . curl_error($this->_curl));
         }
 
-        $result = json_decode($response_body, true);
+        $result = json_decode($response_body);
 
         if ($result === null) {
             throw new \Fluent\Exception('We were unable to decode the JSON response from the Fluent API: ' . $response_body);
         }
 
         if (floor($info['http_code'] / 100) >= 4) {
-            throw new \Fluent\Exception("{$info['http_code']}, " . $result['message']);
+            throw new \Fluent\Exception("{$info['http_code']}, " . $result->message);
         }
 
         return $result;

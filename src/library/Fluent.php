@@ -1,6 +1,5 @@
 <?php
 
-
 class Fluent
 {
     public static $defaults = array(
@@ -18,23 +17,17 @@ class Fluent
      * @param array $defaults
      * @return \Fluent\Message
      */
-    public static function message($content = null, array $defaults = array())
+    public static function message(array $defaults = array())
     {
-        return new \Fluent\Message($content, array_merge(self::$defaults, $defaults));
+        return new \Fluent\Message(array_merge(self::$defaults, $defaults));
     }
 
     /**
      * @param array $defaults
-     * @return \Fluent\Message
+     * @return \Fluent\Event
      */
-    public static function event($defaults = null)
+    public static function event(array $defaults = array())
     {
-        if ($defaults === null) {
-            $defaults = self::$defaults;
-        }
-
-        return new \Fluent\Event(
-            new Fluent\Api($defaults['key'], $defaults['secret'])
-        );
+        return new \Fluent\Event(array_merge(self::$defaults, $defaults));
     }
 }

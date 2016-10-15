@@ -10,6 +10,7 @@ set_include_path(implode(PATH_SEPARATOR, array(
 require_once 'Fluent.php';
 require_once 'Fluent/Api.php';
 require_once 'Fluent/Event.php';
+require_once 'Fluent/Event/Find.php';
 require_once 'Fluent/Content.php';
 require_once 'Fluent/Message.php';
 require_once 'Fluent/Exception.php';
@@ -27,10 +28,10 @@ Fluent\Api::$endpoint = 'https://fluent.clickapp.co.za/v3';
 Fluent\Api::$debug = true;
 
 try {
-    $response = Fluent::event()
+    $response = Fluent::event()->find()
         //->from('support@photofrog.co.za')
         ->type('send')
-        ->fetchAll();
+        ->fetch();
     print_r($response);
 } catch (Fluent\Exception $e) {
     echo 'Error: ' . $e->getMessage() . "\n";

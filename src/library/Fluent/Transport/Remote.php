@@ -10,7 +10,7 @@ class Remote implements \Fluent\Transport
         $this->_api = $api;
     }
     
-    public function send(\Fluent\Message $message)
+    public function send(\Fluent\Message\Create $message)
     {
         $properties = $message->toArray();
         $params = array(
@@ -24,7 +24,7 @@ class Remote implements \Fluent\Transport
         );
         
         $response = $this->_api->call('message', 'create', $params);
-        return $response['_id'];
+        return $response->_id;
     }
     
 }

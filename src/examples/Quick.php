@@ -11,6 +11,7 @@ require_once 'Fluent/Api.php';
 require_once 'Fluent/Content.php';
 require_once 'Fluent/Content/Markup.php';
 require_once 'Fluent/Message.php';
+require_once 'Fluent/Message/Create.php';
 require_once 'Fluent/Transport.php';
 require_once 'Fluent/Transport/Remote.php';
 
@@ -25,7 +26,7 @@ Fluent\Api::$endpoint = 'http://localhost/fluent-web-service/v3';
 Fluent\Api::$debug = true;
 
 try {
-    $messageId = Fluent::message()
+    $messageId = Fluent::message()->create()
         ->setTitle('My little pony')
         ->addParagraph('I love my pony very much.')
         ->addCallout('http://www.mypony.com', 'Like my pony')
