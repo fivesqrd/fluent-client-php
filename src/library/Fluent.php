@@ -11,6 +11,8 @@ class Fluent
         'transport' => 'remote',
         'storage'   => 'sqlite'
     );
+
+    const VERSION = '3.2';
     
     /**
      * @param string $content
