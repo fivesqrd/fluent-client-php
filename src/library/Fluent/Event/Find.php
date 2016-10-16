@@ -22,7 +22,7 @@ class Find
      */
     public function from($value)
     {
-        $this->_params['recipient'] = $value;
+        $this->_params['sender'] = $value;
         return $this;
     }
 
@@ -32,7 +32,7 @@ class Find
      */
     public function to($value)
     {
-        $this->_params['sender'] = $value;
+        $this->_params['recipient'] = $value;
         return $this;
     } 
 
