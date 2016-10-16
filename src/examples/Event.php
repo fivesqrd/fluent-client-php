@@ -23,14 +23,14 @@ Fluent::$defaults = array(
     'sender'   => array('name' => 'ACME', 'address' => 'christian@clickscience.co.za'),
 );
 
-//Fluent\Api::$endpoint = 'http://localhost/fluent-web-service/v3';
-Fluent\Api::$endpoint = 'https://fluent.clickapp.co.za/v3';
+Fluent\Api::$endpoint = 'http://localhost/fluent-web-service/v3';
+//Fluent\Api::$endpoint = 'https://fluent.clickapp.co.za/v3';
 Fluent\Api::$debug = true;
 
 try {
     $response = Fluent::event()->find()
         //->from('support@photofrog.co.za')
-        ->type('send')
+        ->type(array('send', 'open'))
         ->fetch();
     print_r($response);
 } catch (Fluent\Exception $e) {
