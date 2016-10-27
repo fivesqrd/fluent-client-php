@@ -77,7 +77,7 @@ class Sqlite implements \Fluent\Storage
         }
     }
     
-    public function persist(\Fluent\Message $message)
+    public function persist(\Fluent\Message\Create $message)
     {
         $properties = $message->toArray();
         $data = array(

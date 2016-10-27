@@ -3,7 +3,7 @@ namespace Fluent;
 
 interface Storage
 {
-    public function persist(\Fluent\Message $email);
+    public function persist(\Fluent\Message\Create $email);
     
     public function delete($messageId);
     

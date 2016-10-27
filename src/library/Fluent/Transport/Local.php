@@ -17,7 +17,7 @@ class Local implements \Fluent\Transport
         $this->_storage = $class::getInstance();
     }
     
-    public function send(\Fluent\Message $message)
+    public function send(\Fluent\Message\Create $message)
     {
         return $this->_storage->persist($message);
     }
