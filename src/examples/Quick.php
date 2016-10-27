@@ -14,6 +14,9 @@ require_once 'Fluent/Message.php';
 require_once 'Fluent/Message/Create.php';
 require_once 'Fluent/Transport.php';
 require_once 'Fluent/Transport/Remote.php';
+require_once 'Fluent/Transport/Local.php';
+require_once 'Fluent/Storage.php';
+require_once 'Fluent/Storage/Sqlite.php';
 
 Fluent::$defaults = array(
     'key'      => '9fe630283b5a62833b04023c20e43915',
@@ -34,7 +37,8 @@ try {
         ->subject('Testing it')
         ->header('Reply-To', 'christianjburger@me.com')
         ->to('christianjburger@gmail.com')
-        ->send('remote');
+        //->send(\Fluent\Transport::LOCAL);
+        ->send(\Fluent\Transport::REMOTE);
     echo 'Sent message: ' . $messageId . "\n";
 } catch (Fluent\Exception $e) {
     echo 'Error: ' . $e->getMessage() . "\n";

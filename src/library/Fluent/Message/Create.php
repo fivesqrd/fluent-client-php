@@ -99,7 +99,7 @@ class Create
 
         switch (strtolower($transport)) {
             case 'local':
-                $client = new Transport\Local();
+                $client = new Transport\Local($this->_defaults);
                 break;
             case 'remote':
                 $client = new Transport\Remote(
