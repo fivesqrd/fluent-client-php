@@ -38,7 +38,7 @@ class Create
     
     public function __construct($content, $defaults = array())
     {
-        if ($content instanceof Template) {
+        if ($content instanceof \Fluent\Template) {
             $this->_content = $content->getContent();
         } elseif ($content instanceof Content\Markup) {
             $this->_content = $content;
