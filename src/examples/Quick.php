@@ -25,15 +25,16 @@ Fluent::$defaults = array(
     'sender'   => array('name' => 'ACME', 'address' => 'christian@clickscience.co.za'),
 );
 
-Fluent\Api::$endpoint = 'http://localhost/fluent-web-service/v3';
-//Fluent\Api::$endpoint = 'https://fluent.clickapp.co.za/v3';
+//Fluent\Api::$endpoint = 'http://localhost/fluent-web-service/v3';
+Fluent\Api::$endpoint = 'https://fluent.clickapp.co.za/v3';
 Fluent\Api::$debug = true;
 
 try {
     $messageId = Fluent::message()->create()
         ->setTitle('My little pony')
-        ->addParagraph('I love my pony very much.')
+        ->addParagraph('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ornare pellentesque neque non rutrum. Sed a sagittis lacus.')
         ->addCallout('http://www.mypony.com', 'Like my pony')
+        ->addParagraph('Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.')
         ->setTeaser('This is a teaser')
         ->subject('Testing it')
         ->header('Reply-To', 'christianjburger@me.com')
