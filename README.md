@@ -21,4 +21,4 @@ $messageId = Fluent::message()->create()
     ->send();
   ```
 ### Result ###
-![alt text](https://github.com/Five-Squared/Fluent-Library-PHPimages/Quick-Example.png "Quick Example")
+![Quick Example](https://raw.githubusercontent.com/Five-Squared/Fluent-Library-PHP/3.2/images/Quick-Example.png "Quick Example")
