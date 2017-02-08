@@ -7,6 +7,11 @@ Programmatic approach to generating and sending responsive user notifications vi
 - Less time wrestling with CSS inlining
 - Automatically responsive
 
+### Install ###
+```
+php composer.phar require fivesqrd/fluent:3.2
+```
+
 ### Quick Example ###
 ```
 $messageId = Fluent::message()->create()
@@ -20,5 +25,3 @@ $messageId = Fluent::message()->create()
     ->to('myemail@email.com')
     ->send();
   ```
-### Result ###
-![Quick Example](https://raw.githubusercontent.com/Five-Squared/Fluent-Library-PHP/3.2/images/Quick-Example.png "Quick Example")
