@@ -11,8 +11,9 @@ Programattic approach to generate and send responsive user notifications via e-m
 ```
 $messageId = Fluent::message()->create()
     ->setTitle('My little pony')
-    ->addParagraph('I love my pony very much.')
+    ->addParagraph('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ornare pellentesque neque non rutrum. Sed a sagittis lacus. Suspendisse ac vulputate quam. Phasellus suscipit urna vel orci lobortis gravida.')
     ->addCallout('http://www.mypony.com', 'Like my pony')
+    ->addParagraph('Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.')
     ->setTeaser('This is a teaser')
     ->subject('Testing it')
     ->header('Reply-To', 'me@myapp.com')
