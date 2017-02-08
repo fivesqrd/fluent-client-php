@@ -1,4 +1,4 @@
-Fluent Client Library for PHP
+Fluent for PHP
 ============
 Programattic approach to generate and send responsive user notifications via e-mail
 
@@ -11,11 +11,14 @@ Programattic approach to generate and send responsive user notifications via e-m
 ```
 $messageId = Fluent::message()->create()
     ->setTitle('My little pony')
-    ->addParagraph('I love my pony very much.')
+    ->addParagraph('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ornare pellentesque neque non rutrum. Sed a sagittis lacus.')
     ->addCallout('http://www.mypony.com', 'Like my pony')
+    ->addParagraph('Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.')
     ->setTeaser('This is a teaser')
     ->subject('Testing it')
     ->header('Reply-To', 'me@myapp.com')
     ->to('myemail@email.com')
-    ->send(\Fluent\Transport::REMOTE);
+    ->send();
   ```
+### Result ###
+![Quick Example](https://raw.githubusercontent.com/Five-Squared/Fluent-Library-PHP/3.2/images/Quick-Example.png "Quick Example")
