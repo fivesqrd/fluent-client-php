@@ -20,3 +20,5 @@ $messageId = Fluent::message()->create()
     ->to('myemail@email.com')
     ->send();
   ```
+### Result ###
+![alt text](https://github.com/Five-Squared/Fluent-Library-PHPimages/Quick-Example.png "Quick Example")
