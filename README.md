@@ -1,6 +1,6 @@
 Fluent for PHP
 ============
-Programattic approach to generate and send responsive user notifications via e-mail
+Programmatic approach to generating and sending responsive user notifications via e-mail
 
 ### Benefits ###
 - Easy API to generate HTML based e-mail bodies in your app
