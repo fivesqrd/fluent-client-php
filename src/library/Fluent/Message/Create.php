@@ -12,8 +12,9 @@ namespace Fluent\Message;
  * @method \Fluent\Message\Create setTeaser(string $value)
  */
 
-use \Fluent\Content as Content;
-use \Fluent\Transport as Transport;
+use Fluent\Content;
+use Fluent\Transport;
+use Fluent\Exception;
 
 class Create
 {
@@ -80,7 +81,7 @@ class Create
         if (method_exists($this->_content, $name)) {
             $object = $this->_content;
         } else {
-            throw new \Fluent\Exception('Invalid method ' . $name . ' for ' . get_class($this->_content));
+            throw new Exception('Invalid method ' . $name . ' for ' . get_class($this->_content));
         }
     
         call_user_func_array(array($object, $name), $arguments);
