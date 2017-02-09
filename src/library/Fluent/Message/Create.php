@@ -102,13 +102,11 @@ class Create
             case 'local':
                 $client = new Transport\Local($this->_defaults);
                 break;
-            case 'remote':
+            default:
                 $client = new Transport\Remote(
                     new \Fluent\Api($this->_getDefault('key'), $this->_getDefault('secret'))
                 );
                 break;
-            default:
-                throw new Exception('No valid transport method specified');
         }
         
         return $client->send($this);
