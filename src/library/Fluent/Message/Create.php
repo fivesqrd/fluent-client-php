@@ -7,7 +7,8 @@ namespace Fluent\Message;
  *
  * @method \Fluent\Message\Create setTitle(string $text)
  * @method \Fluent\Message\Create addParagraph(string $text)
- * @method \Fluent\Message\Create addCallout(string $href, string $text)
+ * @method \Fluent\Message\Create addButton(string $href, string $text)
+ * @method \Fluent\Message\Create addNumber(string $value, string $caption)
  * @method \Fluent\Message\Create setRawContent(string $value)
  * @method \Fluent\Message\Create setTeaser(string $value)
  */

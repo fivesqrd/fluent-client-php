@@ -37,9 +37,22 @@ class Markup
      */
     public function addParagraph($text)
     {
-        $paragraph = new \DOMElement('paragraph');
-        $this->_content->appendChild($paragraph);
-        $paragraph->appendChild($this->_getCData($text));
+        $element = new \DOMElement('paragraph');
+        $this->_content->appendChild($element);
+        $element->appendChild($this->_getCData($text));
+        return $this;
+    }
+    
+    /**
+     * @param string $text
+     * @return \Fluent\Content\Markup
+     */
+    public function addNumber($value, $caption = null)
+    {
+        $element = new \DOMElement('number');
+        $this->_content->appendChild($element);
+        $element->appendChild(new \DOMElement('value', htmlentities($value)));
+        $element->appendChild(new \DOMElement('caption', $this->_getCData($text)));
         return $this;
     }
 
@@ -53,11 +66,11 @@ class Markup
      * @param string $text
      * @return \Fluent\Content\Markup
      */
-    public function addCallout($href, $text)
+    public function addButton($href, $text)
     {
-        $callout = new \DOMElement('callout', htmlentities($text));
-        $this->_content->appendChild($callout);
-        $callout->setAttribute('href', $href);
+        $element = new \DOMElement('button', htmlentities($text));
+        $this->_content->appendChild($element);
+        $element->setAttribute('href', $href);
         return $this;
     }
 
