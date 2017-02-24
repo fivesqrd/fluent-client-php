@@ -52,7 +52,7 @@ class Markup
         $element = new \DOMElement('number');
         $this->_content->appendChild($element);
         $element->appendChild(new \DOMElement('value', htmlentities($value)));
-        $element->appendChild(new \DOMElement('caption', $this->_getCData($text)));
+        $element->appendChild(new \DOMElement('caption', $caption));
         return $this;
     }
 
