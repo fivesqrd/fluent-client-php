@@ -44,16 +44,31 @@ class Markup
     }
     
     /**
-     * @param string $text
+     * @param array $numbers Up to 3 number/caption combos
      * @return \Fluent\Content\Markup
      */
-    public function addNumber($value, $caption = null)
+    public function addNumbers(array $numbers)
+    {
+        $element = new \DOMElement('numbers');
+        $this->_content->appendChild($element);
+        
+        foreach ($numbers as $number) {
+            $this->_addNumber(
+                $element, 
+                isset($number['value']) ? $number['value'] : null, 
+                isset($number['caption']) ? $number['caption'] : null
+            );
+        }
+
+        return $this;
+    }
+
+    protected function _addNumber($parent, $value, $caption)
     {
         $element = new \DOMElement('number');
-        $this->_content->appendChild($element);
+        $parent->appendChild($element);
         $element->appendChild(new \DOMElement('value', htmlentities($value)));
         $element->appendChild(new \DOMElement('caption', $caption));
-        return $this;
     }
 
     protected function _getCData($text)

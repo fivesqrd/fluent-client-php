@@ -29,10 +29,16 @@ Fluent\Api::$endpoint = 'http://localhost/fluent/service/v3';
 //Fluent\Api::$endpoint = 'https://fluent.clickapp.co.za/v3';
 Fluent\Api::$debug = true;
 
+$numbers = array(
+    ['value' => '$95.00', 'caption' => 'Billed'], 
+    ['value' => '$95.00', 'caption' => 'Paid'],
+    ['value' => '$0.00', 'caption' => 'Balance']
+);
+
 try {
     $messageId = Fluent::message()->create()
         ->addParagraph('We have just processed your monthly payment for Musixmatch monthly subscription (10 Feb - 9 Mar).')
-        ->addNumber('$95', 'Total')
+        ->addNumbers($numbers)
         ->addButton('http://www.myinvoices.com', 'Download Invoice')
         ->addParagraph('Please note the transaction will reflect on your statement as <b>"Musixmatch"</b>. Please <a href="#">contact us</a> if you have any questions about this receipt or your account.')
         ->setTeaser('This is a test receipt teaser.')
