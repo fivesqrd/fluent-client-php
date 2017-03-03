@@ -74,7 +74,7 @@ class Markup
             );
         }
 
-        if (array_key_exists('caption', $value)) {
+        if (array_key_exists('caption', $number)) {
             $element->appendChild(
                 new \DOMElement('caption', $number['caption'])  
             );
