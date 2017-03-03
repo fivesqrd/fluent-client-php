@@ -49,9 +49,14 @@ class Markup
      */
     public function addNumber(array $numbers)
     {
+        if (array_key_exists('value', $numbers)) {
+            /* we have been given one number only */
+            $numbers = array($numbers);
+        }
+        
         $parent = $this->_content
             ->appendChild(new \DOMElement('numbers'));
-        
+
         foreach ($numbers as $number) {
             $element = $this->_getNumberElement(
                 $parent->appendChild(new \DOMElement('number')), $number
