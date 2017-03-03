@@ -44,31 +44,38 @@ class Markup
     }
     
     /**
-     * @param array $numbers Up to 3 number/caption combos
+     * @param array $numbers Up to 3 number/caption pairs
      * @return \Fluent\Content\Markup
      */
-    public function addNumbers(array $numbers)
+    public function addNumber(array $numbers)
     {
-        $element = new \DOMElement('numbers');
-        $this->_content->appendChild($element);
+        $parent = $this->_content
+            ->appendChild(new \DOMElement('numbers'));
         
         foreach ($numbers as $number) {
-            $this->_addNumber(
-                $element, 
-                isset($number['value']) ? $number['value'] : null, 
-                isset($number['caption']) ? $number['caption'] : null
+            $element = $this->_getNumberElement(
+                $parent->appendChild(new \DOMElement('number')), $number
             );
         }
 
         return $this;
     }
 
-    protected function _addNumber($parent, $value, $caption)
+    protected function _getNumberElement($element, $number)
     {
-        $element = new \DOMElement('number');
-        $parent->appendChild($element);
-        $element->appendChild(new \DOMElement('value', htmlentities($value)));
-        $element->appendChild(new \DOMElement('caption', $caption));
+        if (array_key_exists('value', $number)) {
+            $element->appendChild(
+                new \DOMElement('value', htmlentities($number['value']))
+            );
+        }
+
+        if (array_key_exists('caption', $value)) {
+            $element->appendChild(
+                new \DOMElement('caption', $number['caption'])  
+            );
+        }
+
+        return $element;
     }
 
     protected function _getCData($text)
