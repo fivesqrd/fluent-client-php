@@ -23,11 +23,10 @@ Fluent::$defaults = array(
     'key'      => '9fe630283b5a62833b04023c20e43915',
     'secret'   => 'test',
     'sender'   => array('name' => 'The Acme Company', 'address' => 'christian@clickscience.co.za'),
+    'endpoint' => 'http://localhost/fluent/service/v3',
+    //'endpoint' => 'https://fluent.clickapp.co.za/v3',
+    'debug'    => true
 );
-
-Fluent\Api::$endpoint = 'http://localhost/fluent/service/v3';
-//Fluent\Api::$endpoint = 'https://fluent.clickapp.co.za/v3';
-Fluent\Api::$debug = true;
 
 $numbers = array(
     ['value' => '$95.00', 'caption' => 'Billed'], 

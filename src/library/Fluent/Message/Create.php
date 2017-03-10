@@ -105,7 +105,9 @@ class Create
                 break;
             default:
                 $client = new Transport\Remote(
-                    new \Fluent\Api($this->_getDefault('key'), $this->_getDefault('secret'))
+                    new \Fluent\Api(
+                        $this->_getDefault('key'), $this->_getDefault('secret'), $this->_getDefault('endpoint'), $this->_getDefault('debug')
+                    )
                 );
                 break;
         }
