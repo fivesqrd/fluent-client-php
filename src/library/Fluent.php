@@ -12,7 +12,7 @@ class Fluent
         'storage'   => 'sqlite'
     );
 
-    const VERSION = '3.2';
+    const VERSION = '3.3';
     
     /**
      * @param string $content
