@@ -13,7 +13,7 @@ class Api
     
     protected $_debug = false;
     
-    const ENDPOINT = 'https://fluent.clickapp.co.za/v3';
+    const ENDPOINT = 'https://apps.5sq.io/fluent/api/v3';
     
     public function __construct($key, $secret, $endpoint = null, $debug = false)
     {
