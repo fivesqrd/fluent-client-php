@@ -22,9 +22,9 @@ require_once 'Fluent/Storage/Sqlite.php';
 Fluent::$defaults = array(
     //'key'      => '9fe630283b5a62833b04023c20e43915',
     //'secret'   => 'test',
-    'key'       => '57cdf601',
-    'secret'    => '10a9dcd34501ef662fbaf4e2b01775a1',
-    'sender'   => array('name' => 'The Acme Company', 'address' => 'christian@clickscience.co.za'),
+    'key'       => '60ced422',
+    'secret'    => '122f3a57615d1190752a6b7fcc60f901',
+    'sender'   => array('name' => 'The Acme Company', 'address' => 'fluent@5sq.io'),
     'endpoint' => 'http://localhost/fluent/service/v3',
     //'endpoint' => 'https://fluent.clickapp.co.za/v3',
     'debug'    => true
