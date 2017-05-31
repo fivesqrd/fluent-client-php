@@ -13,7 +13,7 @@ class Api
     
     protected $_debug = false;
     
-    const ENDPOINT = 'https://apps.5sq.io/fluent/service/v3';
+    const ENDPOINT = 'https://fluent.5sq.io/service/v3';
     
     public function __construct($key, $secret, $endpoint = null, $debug = false)
     {
