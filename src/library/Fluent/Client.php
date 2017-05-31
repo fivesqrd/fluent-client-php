@@ -9,7 +9,7 @@ class Client
 
     protected $_secret;
 
-    public static $endpoint = 'https://apps.5sq.io/fluent/api/v3';
+    public static $endpoint = 'https://apps.5sq.io/fluent/service/v3';
 
     public static $debug = false;
 
