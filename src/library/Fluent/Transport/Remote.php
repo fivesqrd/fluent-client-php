@@ -9,7 +9,7 @@ class Remote implements \Fluent\Transport
     
     protected $_secret;
     
-    public static $endpoint = 'https://apps.5sq.io/fluent/service/v3';
+    public static $endpoint = 'https://fluent.5sq.io/service/v3';
     
     public static $debug = false;
     
