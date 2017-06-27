@@ -2,16 +2,15 @@
 	"name": "fivesqrd/fluent",
 	"description": "The Fluent Messaging client library",
 	"require": {},
-    	"autoload": {
-        	"classmap": ["src/library"]
-    	},
-    	"version": "3.2.0",
-    	"license": ["MIT"],
-    	"authors": [
-        	{
-            		"name": "Christian Burger",
-            		"email": "christian@fivesqrd.com",
-            		"role": "Developer"
-        	}
-    	]
+    "autoload": {
+        "classmap": ["src/library"]
+    },
+    "license": ["MIT"],
+    "authors": [
+        {
+            "name": "Christian Burger",
+           	"email": "christian@fivesqrd.com",
+           	"role": "Developer"
+       	}
+   	]
 }
