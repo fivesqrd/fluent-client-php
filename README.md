@@ -12,16 +12,27 @@ Programmatic approach to generating and sending responsive user notifications vi
 php composer.phar require fivesqrd/fluent:3.2
 ```
 
-### Quick Example ###
+### Quick Examples ###
+Create and send a message:
 ```
 $messageId = Fluent::message()->create()
     ->setTitle('My little pony')
     ->addParagraph('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ornare pellentesque neque non rutrum. Sed a sagittis lacus.')
-    ->addCallout('http://www.mypony.com', 'Like my pony')
+    ->addButton('http://www.mypony.com', 'Like my pony')
     ->addParagraph('Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.')
     ->setTeaser('This is a teaser')
     ->subject('Testing it')
     ->header('Reply-To', 'me@myapp.com')
-    ->to('myemail@email.com')
+    ->to('user@theirdomain.com')
     ->send();
-  ```
+```
+
+
+Find problematic events related to a user's email adress:
+```
+$response = \Fluent::event()->find()
+    ->to('user@theirdomain.com')
+    ->since(date('Y-m-d H:i:s', $timeframe))
+    ->type(array('hard_bounce', 'soft_bounce', 'reject'))
+    ->fetch();
+```

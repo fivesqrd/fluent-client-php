@@ -8,28 +8,43 @@ class Api
     protected $_key;
     
     protected $_secret;
+
+    protected $_endpoint;
     
-    public static $endpoint = 'https://fluent.clickapp.co.za/v3';
+    protected $_debug = false;
     
-    public static $debug = false;
+    const ENDPOINT = 'https://fluent.5sq.io/service/v3';
     
-    public function __construct($key, $secret, $endpoint = null)
+    public function __construct($key, $secret, $endpoint = null, $debug = false)
     {
         $this->_curl = curl_init();
         $this->_key = $key;
         $this->_secret = $secret;
-        if ($endpoint !== null) {
-            self::$endpoint = $endpoint;
+        $this->_endpoint = $endpoint;
+        $this->_debug = $debug;
+    }
+
+    public function getEndpoint()
+    {
+        if ($this->_endpoint !== null) {
+            return $this->_endpoint;
         }
+
+        return self::ENDPOINT;
+    }
+
+    public function isDebugOn()
+    {
+        return ($this->_debug === true);
     }
     
     public function call($resource, $method, $params)
     {
         $payload = http_build_query($params);
         
-        $url = self::$endpoint . '/' . $resource;
+        $url = $this->getEndpoint() . '/' . $resource;
         
-        curl_setopt($this->_curl, CURLOPT_VERBOSE, self::$debug);
+        curl_setopt($this->_curl, CURLOPT_VERBOSE, $this->isDebugOn());
         curl_setopt($this->_curl, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($this->_curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($this->_curl, CURLOPT_USERPWD, $this->_key . ':' . $this->_secret);
@@ -58,7 +73,7 @@ class Api
         
         $start = microtime(true);
         $this->_log('Call to ' . $url . ': ' . $payload);
-        if (self::$debug) {
+        if ($this->isDebugOn()) {
             $curl_buffer = fopen('php://memory', 'w+');
             curl_setopt($this->_curl, CURLOPT_STDERR, $curl_buffer);
         }
@@ -66,7 +81,7 @@ class Api
         $response_body = curl_exec($this->_curl);
         $info = curl_getinfo($this->_curl);
         $time = microtime(true) - $start;
-        if (self::$debug) {
+        if ($this->isDebugOn()) {
             rewind($curl_buffer);
             $this->_log(stream_get_contents($curl_buffer));
             fclose($curl_buffer);
@@ -93,7 +108,7 @@ class Api
     }
     
     protected function _log($msg) {
-        if (self::$debug) {
+        if ($this->isDebugOn()) {
             error_log($msg);
         }
     }

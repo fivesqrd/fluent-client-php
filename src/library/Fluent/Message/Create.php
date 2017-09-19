@@ -7,7 +7,8 @@ namespace Fluent\Message;
  *
  * @method \Fluent\Message\Create setTitle(string $text)
  * @method \Fluent\Message\Create addParagraph(string $text)
- * @method \Fluent\Message\Create addCallout(string $href, string $text)
+ * @method \Fluent\Message\Create addButton(string $href, string $text)
+ * @method \Fluent\Message\Create addNumber(array $numbers)
  * @method \Fluent\Message\Create setRawContent(string $value)
  * @method \Fluent\Message\Create setTeaser(string $value)
  */
@@ -102,13 +103,13 @@ class Create
             case 'local':
                 $client = new Transport\Local($this->_defaults);
                 break;
-            case 'remote':
+            default:
                 $client = new Transport\Remote(
-                    new \Fluent\Api($this->_getDefault('key'), $this->_getDefault('secret'))
+                    new \Fluent\Api(
+                        $this->_getDefault('key'), $this->_getDefault('secret'), $this->_getDefault('endpoint'), $this->_getDefault('debug')
+                    )
                 );
                 break;
-            default:
-                throw new Exception('No valid transport method specified');
         }
         
         return $client->send($this);

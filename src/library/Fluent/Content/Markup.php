@@ -37,10 +37,50 @@ class Markup
      */
     public function addParagraph($text)
     {
-        $paragraph = new \DOMElement('paragraph');
-        $this->_content->appendChild($paragraph);
-        $paragraph->appendChild($this->_getCData($text));
+        $element = new \DOMElement('paragraph');
+        $this->_content->appendChild($element);
+        $element->appendChild($this->_getCData($text));
         return $this;
+    }
+    
+    /**
+     * @param array $numbers Up to 3 number/caption pairs
+     * @return \Fluent\Content\Markup
+     */
+    public function addNumber(array $numbers)
+    {
+        if (array_key_exists('value', $numbers)) {
+            /* we have been given one number only */
+            $numbers = array($numbers);
+        }
+        
+        $parent = $this->_content
+            ->appendChild(new \DOMElement('numbers'));
+
+        foreach ($numbers as $number) {
+            $element = $this->_getNumberElement(
+                $parent->appendChild(new \DOMElement('number')), $number
+            );
+        }
+
+        return $this;
+    }
+
+    protected function _getNumberElement($element, $number)
+    {
+        if (array_key_exists('value', $number)) {
+            $element->appendChild(
+                new \DOMElement('value', htmlentities($number['value']))
+            );
+        }
+
+        if (array_key_exists('caption', $number)) {
+            $element->appendChild(
+                new \DOMElement('caption', $number['caption'])  
+            );
+        }
+
+        return $element;
     }
 
     protected function _getCData($text)
@@ -53,11 +93,11 @@ class Markup
      * @param string $text
      * @return \Fluent\Content\Markup
      */
-    public function addCallout($href, $text)
+    public function addButton($href, $text)
     {
-        $callout = new \DOMElement('callout', htmlentities($text));
-        $this->_content->appendChild($callout);
-        $callout->setAttribute('href', $href);
+        $element = new \DOMElement('button', htmlentities($text));
+        $this->_content->appendChild($element);
+        $element->setAttribute('href', $href);
         return $this;
     }
 
