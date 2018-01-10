@@ -30,6 +30,6 @@ class Raw
 
     public function __toString()
     {
-        return $this->getString();
+        return $this->toString();
     }
 }
