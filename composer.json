@@ -1,5 +1,5 @@
 {
-	"name": "fivesqrd/fluent",
+	"name": "fivesqrd/fluent-classic",
 	"description": "The Fluent Messaging client library",
 	"require": {},
     "autoload": {

@@ -215,7 +215,16 @@ class Create
      */
     public function header($name, $value)
     {
+        if (!is_string($name)) {
+            throw new Exception("Invalid header name provided ({$name})");
+        }
+
+        if (empty($value)) {
+            throw new Exception("Invalid header value provided for {$name}");
+        }
+
         $this->_headers[$name] = $value;
+
         return $this;
     }
 
@@ -226,7 +235,10 @@ class Create
      */
     public function headers(array $values)
     {
-        $this->_headers = array_merge($this->_headers, $values);
+        foreach ($values as $name => $value) {
+            $this->header($name, $value);
+        }
+
         return $this;
     }
     
