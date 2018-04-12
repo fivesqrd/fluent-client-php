@@ -48,7 +48,7 @@ class Api
         curl_setopt($this->_curl, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($this->_curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($this->_curl, CURLOPT_USERPWD, $this->_key . ':' . $this->_secret);
-        curl_setopt($this->_curl, CURLOPT_USERAGENT, 'Fluent-Library-PHP-v' . \Fluent::VERSION);
+        curl_setopt($this->_curl, CURLOPT_USERAGENT, 'Fluent-Library-PHP-v3.3');
         
         switch ($method) {
             case 'create':
