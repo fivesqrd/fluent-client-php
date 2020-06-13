@@ -5,12 +5,11 @@ namespace Fluent\Message;
  *
  * @author cjb
  *
- * @method \Fluent\Message\Create setTitle(string $text)
- * @method \Fluent\Message\Create addParagraph(string $text)
- * @method \Fluent\Message\Create addButton(string $href, string $text)
- * @method \Fluent\Message\Create addNumber(array $numbers)
- * @method \Fluent\Message\Create setRawContent(string $value)
- * @method \Fluent\Message\Create setTeaser(string $value)
+ * @method \Fluent\Message\Create title(string $text)
+ * @method \Fluent\Message\Create paragraph(string $text)
+ * @method \Fluent\Message\Create button(string $href, string $text)
+ * @method \Fluent\Message\Create number(array $numbers)
+ * @method \Fluent\Message\Create teaser(string $value)
  */
 
 use Fluent\Content;

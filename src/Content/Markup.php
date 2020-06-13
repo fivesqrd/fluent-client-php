@@ -25,7 +25,7 @@ class Markup
      * @param string $text
      * @return \Fluent\Content\Markup
      */
-    public function setTitle($text)
+    public function title($text)
     {
         $this->_content->appendChild(new \DOMElement('title', htmlentities($text)));
         return $this;
@@ -35,7 +35,7 @@ class Markup
      * @param string $text
      * @return \Fluent\Content\Markup
      */
-    public function addParagraph($text)
+    public function paragraph($text)
     {
         $element = new \DOMElement('paragraph');
         $this->_content->appendChild($element);
@@ -47,7 +47,7 @@ class Markup
      * @param array $numbers Up to 3 number/caption pairs
      * @return \Fluent\Content\Markup
      */
-    public function addNumber(array $numbers)
+    public function number(array $numbers)
     {
         if (array_key_exists('value', $numbers)) {
             /* we have been given one number only */
@@ -93,7 +93,7 @@ class Markup
      * @param string $text
      * @return \Fluent\Content\Markup
      */
-    public function addButton($href, $text)
+    public function button($href, $text)
     {
         $element = new \DOMElement('button', htmlentities($text));
         $this->_content->appendChild($element);
@@ -115,7 +115,7 @@ class Markup
         return $doc->saveXml();
     }
 
-    public function setTeaser($text)
+    public function teaser($text)
     {
         $this->_teaser = $text;
         return $this;

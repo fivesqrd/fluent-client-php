@@ -1,11 +1,17 @@
 {
 	"name": "fivesqrd/fluent-classic",
 	"description": "The Fluent Messaging client library",
-	"require": {},
+	"require": {
+        "php": ">=7.0.0"
+    },
     "autoload": {
     	"classmap": ["src/library"]
     },
-    "license": ["MIT"],
+    "autoload": {
+        "psr-4": {
+            "Fluent\\": "src/"
+        }
+    },
     "authors": [
    	    {
             "name": "Christian Burger",

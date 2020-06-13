@@ -1,6 +1,8 @@
 <?php
 
-class Fluent
+namespace Fluent;
+
+class Factory
 {
     public static $defaults = array(
         'key'       => null,
@@ -12,7 +14,7 @@ class Fluent
         'storage'   => 'sqlite'
     );
 
-    const VERSION = '3.3';
+    const VERSION = '4.0';
     
     /**
      * @param string $content
@@ -21,7 +23,7 @@ class Fluent
      */
     public static function message(array $defaults = array())
     {
-        return new \Fluent\Message(array_merge(self::$defaults, $defaults));
+        return new Message(array_merge(self::$defaults, $defaults));
     }
 
     /**
@@ -30,6 +32,6 @@ class Fluent
      */
     public static function event(array $defaults = array())
     {
-        return new \Fluent\Event(array_merge(self::$defaults, $defaults));
+        return new Event(array_merge(self::$defaults, $defaults));
     }
 }
