@@ -1,11 +1,8 @@
 {
-	"name": "fivesqrd/fluent-classic",
+	"name": "fivesqrd/fluent-client-php",
 	"description": "The Fluent Messaging client library",
 	"require": {
         "php": ">=7.0.0"
-    },
-    "autoload": {
-    	"classmap": ["src/library"]
     },
     "autoload": {
         "psr-4": {
