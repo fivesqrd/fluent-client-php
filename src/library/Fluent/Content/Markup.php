@@ -1,6 +1,8 @@
 <?php
 namespace Fluent\Content;
 
+use Fluent\Exception;
+
 class Markup
 {
     protected $_title;
@@ -112,6 +114,9 @@ class Markup
     public function toString()
     {
         $doc = $this->_content->ownerDocument;
+        if (!$doc) {
+            throw new Exception('XML document is invalid');
+        }
         return $doc->saveXml();
     }
 
