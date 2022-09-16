@@ -110,48 +110,15 @@ class Markup
     }
 
     /**
-     * Only add paragraph if condition is true
-     * @param bool $condition
-     * @param string $text
-     * @return \Fluent\Content\Markup
+     * Conditionally execute the callable
      */
-    public function paragraphWhen($condition, $text)
+    public function when($condition, $callable)
     {
-        return $condition === true ? $this->paragraph($text) : $this;
-    }
-
-    /**
-     * Only add paragraph if condition is true
-     * @param bool $condition
-     * @param array $paragraphs
-     * @return \Fluent\Content\Markup
-     */
-    public function paragraphsWhen($condition, array $paragraphs)
-    {
-        return $condition === true ? $this->paragraphs($paragraphs) : $this;
-    }
-
-    /**
-     * Only add number if condition is true
-     * @param bool $condition
-     * @param string $text
-     * @return \Fluent\Content\Markup
-     */
-    public function numberWhen($condition, array $numbers)
-    {
-        return $condition === true ? $this->number($numbers) : $this;
-    }
-
-    /**
-     * Only add button if condition is true
-     * @param bool $condition
-     * @param string $href
-     * @param string $text
-     * @return \Fluent\Content\Markup
-     */
-    public function buttonWhen($condition, $href, $text)
-    {
-        return $condition === true ? $this->button($href, $text) : $this;
+        if ($condition === true) {
+            call_user_func($callable, $this);
+        }
+        
+        return $this;
     }
 
     /**
