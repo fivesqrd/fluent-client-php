@@ -31,6 +31,7 @@ $messageId = Fluent\Factory::message()->create()
     ->number(['caption' => 'Today', value => date('j M Y')])
     ->button('http://www.mypony.com', 'Like my pony')
     ->paragraph('Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.')
+    ->paragraphWhen(date('D') == 'Sun', 'Something that will only display on Sundays')
     ->teaser('This is a teaser')
     ->subject('Testing it')
     ->header('Reply-To', 'me@myapp.com')
@@ -67,6 +68,11 @@ $message->attach('My-Attachment.pdf', 'application/pdf', file_get_contents($file
 ```
 
 ```
+/* Only add an attachment if the condition is satisfied */
+$message->attachWhen(file_exists($file), 'My-Attachment.pdf', 'application/pdf', file_get_contents($file))
+```
+
+```
 /* Add multiple attachments to the message */
 $message->attachments(array(
     ['name' => 'My-First-File.pdf', 'type' => 'application/pdf', 'content' => file_get_contents($file)],
@@ -77,7 +83,6 @@ $message->attachments(array(
 ### send()
 Send is the final method of the chain and should always be called last. It delivers to message to the Fluent Web Service and returns a unique message ID.
 ```
-
 /* Send the message */
 $messageId = $message->send();
 ```

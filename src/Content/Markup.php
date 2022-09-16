@@ -42,6 +42,20 @@ class Markup
         $element->appendChild($this->_getCData($text));
         return $this;
     }
+
+    /**
+     * Add multiple paragraphs on one go
+     * @param array[string] $paragraphs
+     * @return \Fluent\Content\Markup
+     */
+    public function paragraphs(array $values)
+    {
+        foreach ($values as $text) {
+            $this->paragraph($text);
+        }
+
+        return $this;
+    }
     
     /**
      * @param array $numbers Up to 3 number/caption pairs
@@ -65,6 +79,94 @@ class Markup
 
         return $this;
     }
+    
+    /**
+     * @param string $href
+     * @param string $text
+     * @return \Fluent\Content\Markup
+     */
+    public function button($href, $text)
+    {
+        $element = new \DOMElement('button', htmlentities($text));
+        $this->_content->appendChild($element);
+        $element->setAttribute('href', $href);
+        return $this;
+    }
+
+    public function getFormat()
+    {
+        return 'markup';
+    }
+
+    public function teaser($text)
+    {
+        $this->_teaser = $text;
+        return $this;
+    }
+    
+    public function getTeaser()
+    {
+        return $this->_teaser;
+    }
+
+    /**
+     * Only add paragraph if condition is true
+     * @param bool $condition
+     * @param string $text
+     * @return \Fluent\Content\Markup
+     */
+    public function paragraphWhen($condition, $text)
+    {
+        return $condition === true ? $this->paragraph($text) : $this;
+    }
+
+    /**
+     * Only add paragraph if condition is true
+     * @param bool $condition
+     * @param array $paragraphs
+     * @return \Fluent\Content\Markup
+     */
+    public function paragraphsWhen($condition, array $paragraphs)
+    {
+        return $condition === true ? $this->paragraphs($paragraphs) : $this;
+    }
+
+    /**
+     * Only add number if condition is true
+     * @param bool $condition
+     * @param string $text
+     * @return \Fluent\Content\Markup
+     */
+    public function numberWhen($condition, array $numbers)
+    {
+        return $condition === true ? $this->number($numbers) : $this;
+    }
+
+    /**
+     * Only add button if condition is true
+     * @param bool $condition
+     * @param string $href
+     * @param string $text
+     * @return \Fluent\Content\Markup
+     */
+    public function buttonWhen($condition, $href, $text)
+    {
+        return $condition === true ? $this->button($href, $text) : $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function toString()
+    {
+        $doc = $this->_content->ownerDocument;
+        return $doc->saveXml();
+    }
+    
+    public function __toString()
+    {
+        return $this->toString();
+    }
 
     protected function _getNumberElement($element, $number)
     {
@@ -86,48 +188,5 @@ class Markup
     protected function _getCData($text)
     {
         return $this->_content->ownerDocument->createCDATASection($text);
-    }
-    
-    /**
-     * @param string $href
-     * @param string $text
-     * @return \Fluent\Content\Markup
-     */
-    public function button($href, $text)
-    {
-        $element = new \DOMElement('button', htmlentities($text));
-        $this->_content->appendChild($element);
-        $element->setAttribute('href', $href);
-        return $this;
-    }
-
-    public function getFormat()
-    {
-        return 'markup';
-    }
-
-    /**
-     * @return string
-     */
-    public function toString()
-    {
-        $doc = $this->_content->ownerDocument;
-        return $doc->saveXml();
-    }
-
-    public function teaser($text)
-    {
-        $this->_teaser = $text;
-        return $this;
-    }
-    
-    public function getTeaser()
-    {
-        return $this->_teaser;
-    }
-    
-    public function __toString()
-    {
-        return $this->toString();
     }
 }

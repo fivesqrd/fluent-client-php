@@ -114,6 +114,16 @@ class Create
         return $client->send($this);
     }
     
+    /**
+     * Conditionally send a message
+     * @param bool $condition
+     * @param string $transport
+     * @return \Fluent\Message\Create
+     */
+    public function sendWhen($condition, $transport = null)
+    {
+        return $condition === true ? $this->send($transport) : $this;
+    }
     
     /**
      * @return \Fluent\Message
@@ -155,6 +165,19 @@ class Create
         ));
 
         return $this;
+    }
+
+    /**
+     * Add an attachment if the condition is true
+     * @param bool $condition
+     * @param string $name
+     * @param string $contentType
+     * @param string $content
+     * @return \Fluent\Message
+     */
+    public function attachWhen($condition, $name, $type, $content)
+    {
+        return $condition === true ? $this->attach($name, $type, $content) : $this;
     }
 
     /**
